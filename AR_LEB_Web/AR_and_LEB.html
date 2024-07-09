@@ -1,0 +1,550 @@
+<html>
+<meta charset="UTF-8">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script charset="utf-8"
+            src="https://webar-static.tencent-cloud.com/ar-sdk/resources/latest/webar-sdk.umd.js"></script>
+    <script src="https://webar-static.tencent-cloud.com/docs/examples/js-sha256/0.9.0/sha256.min.js"></script>
+    <style>
+      body{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    </style>
+</head>
+
+<body>
+<!-- 预览的容器  -->
+<div id="id_local_video" style="width:640px;height:360px;display:flex;align-items:center;justify-content:center; position: relative;">
+    <!-- AR 美颜特效交互 -->
+    <style>
+        #ar_operation{
+            display: block;
+        }
+        #ar_operation.card{
+            width: 50%;
+            position: absolute;
+            top: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+        #ar_operation.card.visible {
+            left: 100%;
+            visibility: visible;
+        }
+        #ar_operation .card-body .tab-content{
+            width: 100%;
+        }
+        #ar_operation .card-body .tab-content .tab-pane{
+            width: 100%;
+        }
+        #ar_operation .nav-item.nav-link {
+            padding: 0.5rem 1rem;
+        }
+        #makeup .col-3, #filter .col-3, #sticker .col-3{
+            cursor: pointer;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+        #makeup .select, #filter .select, #sticker .select {
+            outline: 1px solid blue;
+        }
+        #effect-btn{
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 999;
+            background: url("https://qcloudimg.tencent-cloud.cn/raw/bf11254a1246e265221be252e046707c.svg");
+            background-size: cover;
+        }
+        .beauty_slider__group > div {
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .beauty_slider__group > div label{
+            flex-basis: 3rem;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        .beauty_slider__group > div input[type=range]{
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+        .ar_close{
+            margin-top: 10px;
+            justify-content: flex-end;
+        }
+        #makeup .list,  #filter .list, #sticker .list{
+            max-height: 220px;
+            overflow-y: scroll;
+        }
+        .ar_option {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+        .ar_option a{
+            position: relative;
+            border: 2px solid transparent;
+            border-radius: 50%;
+        }
+        .ar_loading{
+            position: absolute;
+            border-top-color: white;
+            border-bottom-color: white;
+            border-left-color: white;
+            top: calc(50% - 0.5rem);
+            left: calc(50% - 0.5rem);
+            width: 1rem;
+            height: 1rem;
+        }
+        #ar_operation .selected{
+            border: 2px solid #4169e1;
+            border-radius: 50%;
+        }
+    </style>
+    <div id="ar_operation" class="card">
+        <div class="card-header">
+            <nav>
+            <div class="nav nav-tabs" id="ar_tab" role="tablist">
+                  <a class="nav-item nav-link active" id="beauty-tab" data-toggle="tab" href="#beauty" role="tab" aria-controls="beauty"
+                    aria-selected="true">美颜</a>
+                  <a class="nav-item nav-link" id="makeup-tab" data-toggle="tab" href="#makeup" role="tab" aria-controls="profile"
+                    aria-selected="false">美妆</a>
+                  <a class="nav-item nav-link" id="filter-tab" data-toggle="tab" href="#filter" role="tab" aria-controls="contact"
+                    aria-selected="false">滤镜</a>
+                  <a class="nav-item nav-link" id="filter-tab" data-toggle="tab" href="#sticker" role="tab" aria-controls="contact"
+                    aria-selected="false">贴纸</a>
+            </div>
+             </nav>
+        </div>
+        <div class="card-body">
+          <div class="tab-content" id="ar_tab__contntent">
+            <div class="tab-pane fade show active" id="beauty" role="tabpanel" aria-labelledby="beauty-tab">
+                <form class="form-group beauty_slider__group">
+                    <div class="mb-2">
+                        <input id="whiten" data-name="美白" class="multi-range mb-1" type="range" />
+                    </div>
+                    <div class="mb-2">
+                        <input id="dermabrasion" data-name="磨皮" class="multi-range mb-1" type="range" />
+                    </div>
+                    <div class="mb-2">
+                        <input id="lift" data-name="瘦脸" class="multi-range mb-1" type="range" />
+                    </div>
+                    
+                    <div class="mb-2">
+                        <input id="shave" data-name="削脸" class="multi-range mb-1" type="range" />
+                    </div>
+                    <div class="mb-2">
+                        <input id="eye" data-name="大眼" class="multi-range mb-1" type="range" />
+                    </div>
+                    <div class="mb-2">
+                        <input id="chin" data-name="下巴" class="multi-range mb-1" type="range" />
+                    </div>
+                  </form>
+                  <div class="row ar_close">
+                    <button type="button" class="btn btn-sm btn-light">关闭美颜</button>
+                  </div>
+            </div>
+            <div class="tab-pane fade" id="makeup" role="tabpanel" aria-labelledby="makeup-tab">
+                <div class="row list">
+                </div>
+                <div class="row ar_close">
+                    <button type="button" class="btn btn-sm btn-light">关闭美妆</button>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="filter" role="tabpanel" aria-labelledby="filter-tab">
+                <div class="row list">
+                </div>
+                <div class="row ar_close">
+                    <button type="button" class="btn btn-sm btn-light">关闭滤镜</button>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="sticker" role="tabpanel" aria-labelledby="sticker-tab">
+              <div class="row list">
+              </div>
+              <div class="row ar_close">
+                  <button type="button" class="btn btn-sm btn-light">关闭贴纸</button>
+              </div>
+           </div>
+          </div>
+        </div>
+    </div>
+    <div id="effect-btn" title="美颜特效" class="web-ar-control" style="width: 64px; height: 64px;">
+        
+    </div>
+</div>
+<div id="controls" style="width:640px;height:360px;object-fit:contain;display:none">
+    <button id="startPush" type="button" class="btn btn-sm btn-primary">开始推流</button>
+    <button id="stopPush" type="button" class="btn btn-sm btn-success">停止推流</button>
+</div>
+
+<script charset="utf-8" src="https://video.sdk.qcloudecdn.com/web/TXLivePusher-2.0.0.min.js"></script>
+<script>
+      // 初始美颜配置
+      const initBeautify = {
+        whiten: 0.1, // 美白 0-1
+        dermabrasion: 0.3, // 磨皮 0-1
+        lift: 0, // 瘦脸 0-1
+        shave: 0, // 削脸 0-1
+        eye: 0.2, // 大眼 0-1
+        chin: 0, // 下巴 0-1
+      };
+
+      // 美颜特效操作面板交互
+      function initOperationPanel() {
+        $('#effect-btn').click(() => {
+          $('#ar_operation.card').toggleClass('visible');
+        });
+        // 点击别处关闭面板
+        $(document).on('click', (e) => {
+          const closet = $(e.target).closest($('#ar_operation.card')).length;
+          const isEffectbtn = $(e.target).closest($('#effect-btn')).length;
+          if (!isEffectbtn && closet < 1) {
+            $('#ar_operation.card').removeClass('visible');
+          }
+        });
+      }
+      // 美颜参数设置交互
+      function initBeautyAction(cb) {
+        $('#beauty input[type=range]').each((i, item) => {
+          const key = $(item).attr('id');
+          $(item).attr({
+            min: 1,
+            max: 100,
+            step: 1,
+            value: initBeautify[key] * 100,
+          });
+          $(item).change(() => {
+            cb({
+              [key]: $(item).val() / 100,
+            })
+          });
+          $(`<label for="${key}">${$(item).data('name')}</label>`).insertBefore($(item));
+        });
+        // 关闭美颜
+        $('#beauty .ar_close').click(() => {
+          $('#beauty input[type=range]').val(0);
+          cb({
+            whiten: 0, // 美白 0-1
+            dermabrasion: 0, // 磨皮 0-1
+            lift: 0, // 瘦脸 0-1
+            shave: 0, // 削脸 0-1
+            eye: 0, // 大眼 0-1
+            chin: 0, // 下巴 0-1
+          });
+        });
+      }
+
+      // 美妆特效设置交互
+      function initEffectAction(effects, type, cb) {
+        const container = $(`#${type}>.list`);
+        effects.forEach((item, i) => {
+          const optionHtml = $(`<div class="col-3 ar_option" style="flex-direction: column;">
+                <a title="${item.name}""><img src="${item.cover}" alt="" data-id="${item.id}" class="rounded-circle w-100"></a>
+                <span>${item.name}</span>
+                </div>`);
+
+          container.append(optionHtml);
+          if ((i + 1) % 4 === 0) {
+            container.append('<div class="w-100"></div>');
+          }
+        });
+
+        // 事件处理
+        container.off('click').on('click', 'img', (e)=>{
+            let id = $(e.target).attr('data-id');
+            container.find('a').removeClass('selected')
+            $(e.target).parent().addClass('selected')
+            $('<span class="ar_loading spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').appendTo($(e.target).parent());
+            cb(id)
+            return false
+        });
+
+        if (type==='filter') {
+          $('#filter .ar_close').off('click').on('click',() => {
+              console.log('close filter')
+              cb();
+              container.find('a').removeClass('selected');
+              return false;
+          });
+        } else if (type==='makeup') {
+          $('#makeup .ar_close').off('click').on('click',() => {
+              console.log('close makeup')
+              cb();
+              container.find('a').removeClass('selected');
+              return false
+          });
+        } else {
+          $('#sticker .ar_close').off('click').on('click',() => {
+              console.log('close sticker')
+              cb();
+              container.find('a').removeClass('selected');
+              return false
+          });
+        }
+      }
+      function cancelSelect(type) {
+        const container = $(`#${type}>.list`);
+        container.find('a').removeClass('selected');
+      }
+      // 初始化 ar sdk 方法
+      async function initARSDK(stream) {
+        return new Promise((resolve, reject) => {
+          const { ArSdk } = window.AR;
+          /** ----- 鉴权配置 ----- */
+
+          /**
+           * 腾讯云账号 APPID
+           * 
+           * 进入[腾讯云账号中心](https://console.cloud.tencent.com/developer) 即可查看 APPID
+           */
+          const APPID = ''; // 此处请填写您自己的参数
+
+          /**
+           * Web LicenseKey
+           * 
+           * 登录音视频终端 SDK 控制台的[Web License 管理](https://console.cloud.tencent.com/vcube/web)，创建项目即可获得 LicenseKey
+           */
+          const LICENSE_KEY = ''; // 此处请填写您自己的参数
+
+          /**
+           * 计算签名用的密钥 Token
+           * 
+           * 注意：此处仅用于 DEMO 调试，正式环境中请将 Token 保管在服务端，签名方法迁移到服务端实现，通过接口提供，前端调用拉取签名，参考
+           * [签名方法](https://https://cloud.tencent.com/document/product/616/71370#.E7.AD.BE.E5.90.8D.E6.96.B9.E6.B3.95)
+           */
+          const token = ''; // 此处请填写您自己的参数
+
+          /** ----------------------- */
+
+
+          /**
+           * 定义获取签名方法
+           *
+           * 注意：签名方法推荐在服务端实现，通过接口提供，前端调用拉取签名，此处为了帮助您快速跑通所以在前端计算签名
+           * 如：
+           * async function () {
+           *  return fetch('http://xxx.com/get-ar-sign').then(res => res.json());
+           * };
+           */
+          const getSignature = function () {
+            const timestamp = Math.round(new Date().getTime() / 1000);
+            const signature = sha256(timestamp + token + APPID + timestamp).toUpperCase();
+            return { signature, timestamp };
+          };
+
+          const beautify = Object.assign({}, initBeautify);
+
+          // ar sdk 基础配置参数
+          const config = {
+            input: stream,
+            auth: {
+              licenseKey: LICENSE_KEY,
+              appId: APPID,
+              authFunc: getSignature
+            },
+            // 初始美颜效果（可选参数）
+            beautify: initBeautify
+          }
+
+
+
+          // config 传入ar sdk
+          const ar = new ArSdk(config);
+
+          ar.on('ready', (e) => {
+
+            // 返回 ar sdk 实例
+            resolve(ar);
+          });
+          let currentMakeup
+          ar.on('created', () => {
+
+            // 显示美颜特效操作面板
+            initOperationPanel();
+            // 美颜交互
+            initBeautyAction((data) => {
+              ar.setBeautify(Object.assign(beautify, data));
+            });
+
+            // 获取内置美妆，支持分页
+            ar.getEffectList({
+              Type: 'Preset',
+              Label: '美妆',
+            }).then((res) => {
+              const list = res.map(item => ({
+                name: item.Name,
+                id: item.EffectId,
+                cover: item.CoverUrl,
+                url: item.Url,
+                label: item.Label,
+                type: item.PresetType,
+              }));
+
+              // 美妆交互
+              initEffectAction(list, 'makeup', (id) => {
+                  if(id) {
+                    // 设置美妆特效 传入素材id和强度，回调
+                    currentMakeup = {id: id, intensity: 1}
+                    ar.setEffect([currentMakeup], () => {
+                      $('.ar_loading').remove();
+                      // 内置美妆自带滤镜，设置了美妆则取消滤镜的选择，使美妆内置的滤镜生效
+                      cancelSelect('filter')
+                      ar.setFilter();
+                    });
+                  } else {
+                    currentMakeup = null
+                    ar.setEffect([])
+                  }
+                
+              });
+            }).catch((e) => {
+              console.log(e);
+            });
+
+            // 内置滤镜
+            ar.getCommonFilter().then((res) => {
+              const list = res.map(item => ({
+                name: item.Name,
+                id: item.EffectId,
+                cover: item.CoverUrl,
+                url: item.Url,
+                label: item.Label,
+                type: item.PresetType,
+              }));
+
+              // 滤镜交互
+              initEffectAction(list, 'filter', (id) => {
+                  if(id) {
+                    // 设置滤镜 传入滤镜 id， 强度，回调
+                    ar.setFilter(id, 1, () => {
+                      $('.ar_loading').remove();
+                    });
+                    if (currentMakeup) {
+                      ar.setEffect([{
+                        ...currentMakeup,
+                        filterIntensity: 0 // 覆盖美妆的内置滤镜
+                      }]);
+                    }
+                  } else {
+                      ar.setFilter();
+                      if (currentMakeup) {
+                      ar.setEffect([{
+                        ...currentMakeup,
+                        filterIntensity: 1 // 恢复美妆的内置滤镜
+                      }]);
+                    }
+                  }
+              });
+            }).catch((e) => {
+              console.log(e);
+            });
+
+            // 获取内置贴纸，支持分页
+            ar.getEffectList({
+              Type: 'Preset',
+              Label: '贴纸',
+            }).then((res) => {
+              const list = res.map(item => ({
+                name: item.Name,
+                id: item.EffectId,
+                cover: item.CoverUrl,
+                url: item.Url,
+                label: item.Label,
+                type: item.PresetType,
+              }));
+
+              // 美妆交互
+              initEffectAction(list, 'sticker', (id) => {
+                  if(id) {
+                    // 设置美妆特效 传入素材id和强度，回调
+                    ar.setEffect([{id: id, intensity: 1}], () => {
+                      $('.ar_loading').remove();
+                    });
+                  } else {
+                    ar.setEffect([])
+                  }
+                
+              });
+            }).catch((e) => {
+              console.log(e);
+            });
+
+          });
+
+          ar.on('error', (e) => {
+            console.log(e);
+          });
+        });
+
+      }
+      // 主函数
+      async function main() {
+        let w = 1280;
+        let h = 720;
+
+        // 获取设备输入流
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: { width: w, height: h }
+        });
+
+        // 初始化 ar sdk
+        const ar = await initARSDK(stream);
+
+        // 获取 ar sdk 输出的流
+        const arStream = await ar.getOutput();
+
+        /** ----- 推流部分 请填写您自己的参数 ----- */
+        // 设置推流
+        const livePusher = new TXLivePusher()
+        // 设置直播推流基础参数 begin
+        let DOMAIN = '86414.livepush.myqcloud.com'
+        let AppName = 'live'
+        let StreamName = 'live'
+        let txSecret = '22c8307ed9c85fa3103a500c0f95fd2b'
+        let txTime = '62430750'
+        // 设置直播推流基础参数 end
+        /** ----- 推流部分 请填写您自己的参数 ----- */
+
+        let pushUrl = `webrtc://${DOMAIN}/${AppName}/${StreamName}?txSecret=${txSecret}&txTime=${txTime}`
+
+        // 可选：设置预览界面元素
+        livePusher.setRenderView('id_local_video');
+
+        // 捕获流内容
+        livePusher.startCustomCapture(arStream);
+
+        $('#controls').css('display', 'block');
+        // 开始推流按钮
+        $('#startPush').click(() => {
+          console.log('start push...')
+          livePusher.startPush(pushUrl)
+        });
+        // 停止推流按钮
+        $('#stopPush').click(() => {
+          console.log('stop push...')
+          livePusher.stopPush()
+        });
+      }
+
+      window.addEventListener('DOMContentLoaded', () => {
+        main();
+      });
+
+
+
+</script>
+</body>
+</html>
