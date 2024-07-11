@@ -22,7 +22,7 @@ const LICENSE_KEY = ""; // your licenseKey;
  *
  * Obtain a Token by creating a project at [Web License Management] (https://console.tencentcloud.com/magic/web)
  */
-const token = ""; // '您的token';
+const token = ""; // 'your token';
 
 /** ----------------------- */
 
@@ -93,8 +93,10 @@ ar.on("created", () => {
         type: item.PresetType,
       }));
       console.log("list", list);
-      makeups.push(...list.filter((item) => item.label.indexOf("美妆") >= 0));
-      stickers.push(...list.filter((item) => item.label.indexOf("贴纸") >= 0));
+      makeups.push(...list.filter((item) => item.label.indexOf("Makeup") >= 0));
+      stickers.push(
+        ...list.filter((item) => item.label.indexOf("Sticker") >= 0)
+      );
     })
     .catch((e) => {
       console.log(e);
@@ -119,8 +121,8 @@ ar.on("created", () => {
 });
 
 ar.on("ready", async (e) => {
-  if (!APPID || !SECRETKEY || !token) {
-    throw new Error("please enter APPID and SECRETKEY");
+  if (!APPID || !LICENSE_KEY || !token) {
+    throw new Error("please enter APPID and LICENSE_KEY");
   }
   const mediaStream = await ar.getOutput();
   const video = document.createElement("video");
