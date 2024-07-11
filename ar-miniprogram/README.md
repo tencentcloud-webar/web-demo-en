@@ -1,5 +1,5 @@
-参考 [小程序使用npm](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html)
+Reference [Using npm for mini programs](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html)
 
-1. cd 到 **miniprogram** 目录，执行 `npm i` 安装依赖
-2. 进入微信开发者工具，选择 【工具】->【构建npm】
-3. 点击【预览】，手机微信扫码查看效果
+1. cd to the **miniprogram**directory and execute `npm i` to install dependencies
+2. Enter the WeChat developer tools and select [Tools]->[Build npm]
+3. Click [Preview] and scan the QR code on your mobile phone WeChat to view the effect.

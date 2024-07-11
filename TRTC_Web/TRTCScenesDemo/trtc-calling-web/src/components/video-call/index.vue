@@ -1,45 +1,59 @@
 <template>
   <div class="video-call-section">
-    <div
-      class="video-call-section-header"
-    >Welcome {{loginUserInfo && (loginUserInfo.name || loginUserInfo.userId)}}</div>
-    <div class="video-call-section-title">视频通话</div>
-    <search-user :callFlag="callFlag" :cancelFlag="cancelFlag" @callUser="handleCallUser" @cancelCallUser="handleCancelCallUser"></search-user>
+    <div class="video-call-section-header">
+      Welcome
+      {{ loginUserInfo && (loginUserInfo.name || loginUserInfo.userId) }}
+    </div>
+    <div class="video-call-section-title">Video call</div>
+    <search-user
+      :callFlag="callFlag"
+      :cancelFlag="cancelFlag"
+      @callUser="handleCallUser"
+      @cancelCallUser="handleCancelCallUser"
+    ></search-user>
     <div :class="{ 'video-conference': true, 'is-show': isShowVideoCall }">
-      <div class="video-conference-header">视频通话区域</div>
+      <div class="video-conference-header">Video call area</div>
 
       <div class="video-conference-list">
         <div
           v-for="userId in meetingUserIdList"
           :key="`video-${userId}`"
           :id="`video-${userId}`"
-          :class="{'user-video-container': true, 'is-me': userId === loginUserInfo.userId}"
+          :class="{
+            'user-video-container': true,
+            'is-me': userId === loginUserInfo.userId,
+          }"
         >
           <div class="user-status">
             <div
-              :class="{'user-video-status': true, 'is-mute': isUserMute(muteVideoUserIdList, userId)}"
+              :class="{
+                'user-video-status': true,
+                'is-mute': isUserMute(muteVideoUserIdList, userId),
+              }"
             ></div>
             <div
-              :class="{'user-audio-status': true, 'is-mute': isUserMute(muteAudioUserIdList, userId)}"
+              :class="{
+                'user-audio-status': true,
+                'is-mute': isUserMute(muteAudioUserIdList, userId),
+              }"
             ></div>
           </div>
-          <div class="video-item-username">{{userId2Name[userId] || userId}}</div>
+          <div class="video-item-username">
+            {{ userId2Name[userId] || userId }}
+          </div>
         </div>
       </div>
       <div class="video-conference-action">
-        <el-button
-          class="action-btn"
-          type="success"
-          @click="toggleVideo"
-        >{{isVideoOn ? '关闭摄像头' : '打开摄像头'}}</el-button>
+        <el-button class="action-btn" type="success" @click="toggleVideo">{{
+          isVideoOn ? "Turn off camera" : "Turn on camera"
+        }}</el-button>
+        <el-button class="action-btn" type="success" @click="toggleAudio">{{
+          isAudioOn ? "Microphone off" : "Microphone on"
+        }}</el-button>
 
-        <el-button
-          class="action-btn"
-          type="success"
-          @click="toggleAudio"
-        >{{isAudioOn ? '关闭麦克风' : '打开麦克风'}}</el-button>
-
-        <el-button class="action-btn" type="danger" @click="handleHangup">挂断</el-button>
+        <el-button class="action-btn" type="danger" @click="handleHangup"
+          >Hang up</el-button
+        >
       </div>
     </div>
   </div>
@@ -53,17 +67,17 @@ import { getUsernameByUserid } from "../../service";
 export default {
   name: "VideoCall",
   components: {
-    SearchUser
+    SearchUser,
   },
   computed: {
     ...mapState({
-      loginUserInfo: state => state.loginUserInfo,
-      callStatus: state => state.callStatus,
-      isInviter: state => state.isInviter,
-      meetingUserIdList: state => state.meetingUserIdList,
-      muteVideoUserIdList: state => state.muteVideoUserIdList,
-      muteAudioUserIdList: state => state.muteAudioUserIdList
-    })
+      loginUserInfo: (state) => state.loginUserInfo,
+      callStatus: (state) => state.callStatus,
+      isInviter: (state) => state.isInviter,
+      meetingUserIdList: (state) => state.meetingUserIdList,
+      muteVideoUserIdList: (state) => state.muteVideoUserIdList,
+      muteAudioUserIdList: (state) => state.muteAudioUserIdList,
+    }),
   },
   data() {
     return {
@@ -90,80 +104,80 @@ export default {
     }
   },
   watch: {
-    callStatus: function(newStatus, oldStatus) {
-      // 作为被邀请者, 建立通话连接
+    callStatus: function (newStatus, oldStatus) {
+      //As an invitee, establish a call connection
       if (newStatus !== oldStatus && newStatus === "connected") {
         this.startMeeting();
         this.updateUserId2Name(this.meetingUserIdList);
       }
     },
-    meetingUserIdList: function(newList, oldList) {
+    meetingUserIdList: function (newList, oldList) {
       if (newList !== oldList || newList.length !== oldList) {
         this.updateUserId2Name(newList);
       }
-    }
+    },
   },
   methods: {
-    handleCallUser: function({ param }) {
-      this.callFlag = true
-      this.$trtcCalling.call({
-        userID: param,
-        type: this.TrtcCalling.CALL_TYPE.VIDEO_CALL
-      }).then(()=>{
-        this.callFlag = false
-        this.$store.commit("userJoinMeeting", this.loginUserInfo.userId);
-        this.$store.commit("updateCallStatus", "calling");
-        this.$store.commit("updateIsInviter", true);
-      })
-      
+    handleCallUser: function ({ param }) {
+      this.callFlag = true;
+      this.$trtcCalling
+        .call({
+          userID: param,
+          type: this.TrtcCalling.CALL_TYPE.VIDEO_CALL,
+        })
+        .then(() => {
+          this.callFlag = false;
+          this.$store.commit("userJoinMeeting", this.loginUserInfo.userId);
+          this.$store.commit("updateCallStatus", "calling");
+          this.$store.commit("updateIsInviter", true);
+        });
     },
-    handleCancelCallUser: function() {
-      this.cancelFlag = true
-      this.$trtcCalling.hangup().then(()=>{
-        this.cancelFlag = false
+    handleCancelCallUser: function () {
+      this.cancelFlag = true;
+      this.$trtcCalling.hangup().then(() => {
+        this.cancelFlag = false;
         this.$store.commit("dissolveMeeting");
         this.$store.commit("updateCallStatus", "idle");
-      })
+      });
     },
-    startMeeting: function() {
+    startMeeting: function () {
       if (this.meetingUserIdList.length >= 3) {
-        // 多人通话
-        const lastJoinUser = this.meetingUserIdList[
-          this.meetingUserIdList.length - 1
-        ];
+        //多人通话
+        const lastJoinUser =
+          this.meetingUserIdList[this.meetingUserIdList.length - 1];
         this.$trtcCalling.startRemoteView({
           userID: lastJoinUser,
-          videoViewDomID: `video-${lastJoinUser}`
+          videoViewDomID: `video-${lastJoinUser}`,
         });
         return;
       }
       this.isShowVideoCall = true;
       this.$trtcCalling.startLocalView({
         userID: this.loginUserInfo.userId,
-        videoViewDomID: `video-${this.loginUserInfo.userId}`
+        videoViewDomID: `video-${this.loginUserInfo.userId}`,
       });
       const otherParticipants = this.meetingUserIdList.filter(
-        userId => userId !== this.loginUserInfo.userId
+        (userId) => userId !== this.loginUserInfo.userId
       );
-      otherParticipants.forEach(userId => {
+      otherParticipants.forEach((userId) => {
         this.$trtcCalling.startRemoteView({
           userID: userId,
-          videoViewDomID: `video-${userId}`
+          videoViewDomID: `video-${userId}`,
         });
       });
     },
-    handleHangup: function() {
+    handleHangup: function () {
       this.$trtcCalling.hangup();
       this.isShowVideoCall = false;
       this.$store.commit("updateCallStatus", "idle");
       this.$router.push("/");
     },
-    toggleVideo: function() {
+    toggleVideo: function () {
       this.isVideoOn = !this.isVideoOn;
       if (this.isVideoOn) {
         this.$trtcCalling.openCamera();
         const muteUserList = this.muteVideoUserIdList.filter(
-          userId => userId !== this.loginUserInfo.userId
+          (userId) => userId !== this.loginUserInfo.userId
         );
         this.$store.commit("updateMuteVideoUserIdList", muteUserList);
       } else {
@@ -174,12 +188,12 @@ export default {
         this.$store.commit("updateMuteVideoUserIdList", muteUserList);
       }
     },
-    toggleAudio: function() {
+    toggleAudio: function () {
       this.isAudioOn = !this.isAudioOn;
       this.$trtcCalling.setMicMute(!this.isAudioOn);
       if (this.isAudioOn) {
         const muteUserList = this.muteAudioUserIdList.filter(
-          userId => userId !== this.loginUserInfo.userId
+          (userId) => userId !== this.loginUserInfo.userId
         );
         this.$store.commit("updateMuteAudioUserIdList", muteUserList);
       } else {
@@ -189,10 +203,10 @@ export default {
         this.$store.commit("updateMuteAudioUserIdList", muteUserList);
       }
     },
-    isUserMute: function(muteUserList, userId) {
+    isUserMute: function (muteUserList, userId) {
       return muteUserList.indexOf(userId) !== -1;
     },
-    updateUserId2Name: async function(userIdList) {
+    updateUserId2Name: async function (userIdList) {
       let userId2Name = {};
       let loginUserId = this.loginUserInfo.userId;
       for (let i = 0; i < userIdList.length; i++) {
@@ -207,13 +221,13 @@ export default {
       }
       this.userId2Name = {
         ...this.userId2Name,
-        ...userId2Name
+        ...userId2Name,
       };
     },
-    goto: function(path) {
+    goto: function (path) {
       this.$router.push(path);
-    }
-  }
+    },
+  },
 };
 </script>
 

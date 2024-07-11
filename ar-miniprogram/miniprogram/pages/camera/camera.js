@@ -1,70 +1,70 @@
-// 0.3.0及之后版本引用方式（2个文件 + 按需初始化3d模块）
+//Reference method for versions 0.3.0 and later (2 files + initialize 3d module on demand)
 import "../../miniprogram_npm/tencentcloud-webar/lib.js";
 import "../../miniprogram_npm/tencentcloud-webar/core.js";
-// 按需初始化3d插件，如果不需要3d则可以不引用
+//Initialize the 3D plug-in on demand. If you don't need 3D, you don't need to reference it.
 import "../../miniprogram_npm/tencentcloud-webar/lib-3d.js";
 import { plugin3d } from "../../miniprogram_npm/tencentcloud-webar/plugin-3d";
-// 导入 ArSdk
+//Import ArSdk
 import { ArSdk } from "../../miniprogram_npm/tencentcloud-webar/index.js";
 import { default as localStorage } from "../../utils/localStorage";
 import sha256 from "../../utils/sha256";
 
-/** ----- Authentication configuration ----- */
+/**-----Authentication configuration -----*/
 
 /**
- * Tencent Cloud APPID
+ *Tencent Cloud APPID
  *
- * View the APPID at [Tencent Cloud Account Center] (https://console.tencentcloud.com/developer)
+ *View the APPID at [Tencent Cloud Account Center] (https://console.tencentcloud.com/developer)
  */
-const APPID = ""; // your appid;
+const APPID = ""; //your appid;
 
 /**
- * Web LicenseKey
+ *Web LicenseKey
  *
- * Obtain a LicenseKey by creating a project at [Web License Management] (https://console.tencentcloud.com/magic/web)
+ *Obtain a LicenseKey by creating a project at [Web License Management] (https://console.tencentcloud.com/magic/web)
  */
-const LICENSE_KEY = ""; // your licenseKey;
+const LICENSE_KEY = ""; //your licenseKey;
 
 /**
- * This Token is the secret key used for calculating the signature.
+ *This Token is the secret key used for calculating the signature.
  *
- * Obtain a Token by creating a project at [Web License Management] (https://console.tencentcloud.com/magic/web)
+ *Obtain a Token by creating a project at [Web License Management] (https://console.tencentcloud.com/magic/web)
  */
-const token = ""; // 'your token';
+const token = ""; //'your token';
 
-/** ----------------------- */
+/**-----------------------*/
 const BEAUTY_OPTION_LIST = [
   {
-    name: "美白",
+    name: "whitening",
     key: "whiten",
   },
   {
-    name: "磨皮",
+    name: "dermabrasion",
     key: "dermabrasion",
   },
   {
-    name: "瘦脸",
+    name: "face-slimming",
     key: "lift",
   },
   {
-    name: "削脸",
+    name: "shaving face",
     key: "shave",
   },
   {
-    name: "大眼",
+    name: "Big Eye",
     key: "eye",
   },
   {
-    name: "下巴",
+    name: "chin",
     key: "chin",
   },
 ];
 Page({
   /**
-   * 页面的初始数据
+   *Initial data of the page
    */
   data: {
-    backBtnTop: 40, // 返回按钮位置
+    backBtnTop: 40, //Return to button position
     beautyOptions: BEAUTY_OPTION_LIST,
     beautyValue: undefined,
     showFilter: undefined,
@@ -76,12 +76,12 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   *Life cycle function--listen to page loading
    */
   onLoad: function (options) {},
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
+   *Life cycle function--listen to the completion of the initial rendering of the page
    */
   onReady: function () {
     this.init();
@@ -107,7 +107,7 @@ Page({
 
   async start() {
     wx.showLoading({
-      title: "初始化中……",
+      title: "Initializing...",
     });
 
     const canvas = await this.getCanvasNode();
@@ -115,14 +115,14 @@ Page({
       auth: {
         authFunc: this.getSignature,
         appId: APPID,
-        licenseKey: LICENSE_KEY, // 控制台默认key
+        licenseKey: LICENSE_KEY, //Console default key
       },
       camera: {
         width: 720,
         height: 1280,
       },
       output: canvas,
-      beautify: this.data._beauty, // 默认美颜参数
+      beautify: this.data._beauty, //Default beauty parameters
       loading: {
         enable: true,
         lineWidth: 8,
@@ -135,7 +135,7 @@ Page({
       console.log("sdk error", error);
     });
     this.sdk = sdk;
-    // 需在created回调中获取素材信息
+    //Need to obtain material information in the created callback
     sdk.on("created", async (_) => {
       await this.preloadResources();
       wx.hideLoading();
@@ -143,25 +143,25 @@ Page({
   },
 
   /**
-   * 定义获取签名方法
+   *Define the signature acquisition method
    *
-   * 注意：签名方法推荐在服务端实现，通过接口提供，前端调用拉取签名，此处为了帮助您快速跑通所以在前端计算签名
-   * 如：
-   * getSignature(){
-   *   return new Promise((resolve,reject)=>{
-   *     wx.request({
-   *       url: 'https://xxx.com/get-ar-sign',
-   *       method: 'GET',
-   *       success(res) {
-   *         console.log('getSignature ok', res)
-   *          resolve(res.data);
-   *       },
-   *       fail(e){
-   *         console.log('getSignature error', e)
-   *       }
-   *     })
-   *   })
-   * },
+   *Note: It is recommended that the signature method be implemented on the server side, provided through the interface, and the front-end calls to pull the signature. In order to help you run through it quickly, the signature is calculated on the front-end.
+   *like:
+   *getSignature(){
+   *return new Promise((resolve,reject)=>{
+   *wx.request({
+   *url: 'https://xxx.com/get-ar-sign',
+   *method: 'GET',
+   *success(res) {
+   *console.log('getSignature ok', res)
+   *         resolve(res.data);
+   *      },
+   *      fail(e){
+   *        console.log('getSignature error', e)
+   *      }
+   *    })
+   *  })
+   *},
    */
   getSignature() {
     const timestamp = Math.round(new Date().getTime() / 1000);
@@ -192,13 +192,13 @@ Page({
   },
   async stopRecord() {
     wx.showLoading({
-      title: "视频处理中",
+      title: "Video processing",
     });
     const result = await this.sdk.stopRecord();
     this.setData({
       recordStatus: "paused",
     });
-    console.log("导出result", result);
+    console.log("export result", result);
     const { tempFilePath } = result;
     wx.hideLoading();
     wx.navigateTo({
@@ -236,7 +236,7 @@ Page({
       activeOptName: "showSticker",
     });
   },
-  // 遮罩层点击事件
+  //Mask layer click event
   onClickMask() {
     this.setData({
       [this.data.activeOptName]: false,
@@ -245,9 +245,9 @@ Page({
   preloadResources() {
     const getFilterList = () => {
       return new Promise(async (resolve, reject) => {
-        let cache = localStorage.getItem("filter"); // 简单的缓存策略，避免每次都调用接口，根据自身业务需求调整
+        let cache = localStorage.getItem("filter"); //Simple caching strategy, avoid calling the interface every time, adjust according to your own business needs
         if (!cache) {
-          const filterList = await this.sdk.getCommonFilter(); // 通过sdk的getCommonFilter接口获取内置滤镜
+          const filterList = await this.sdk.getCommonFilter(); //Get the built-in filter through the getCommonFilter interface of sdk
           cache = filterList.map((f) => {
             return {
               name: f.Name,
@@ -261,7 +261,7 @@ Page({
         cache.sort((a, b) => b.weight - a.weight);
         cache.unshift({
           key: "none",
-          name: "无",
+          name: "None",
           selected: true,
           previewImage:
             "https://webar-static.tencent-cloud.com/assets/icon/none.png",
@@ -276,7 +276,7 @@ Page({
       return new Promise(async (resolve, reject) => {
         let cache = localStorage.getItem("effect");
         if (!cache) {
-          // 获取内置美妆、贴纸列表
+          //Get the list of built-in makeup and stickers
           const effectList = await this.sdk.getEffectList({
             Type: "Preset",
           });
@@ -291,25 +291,25 @@ Page({
           });
           localStorage.setItem("effect", cache);
         }
-        // console.log('cache',cache)
+        //console.log('cache',cache)
         const makeupList = cache.filter(
-          (item) => item.label.indexOf("美妆") >= 0
+          (item) => item.label.indexOf("Makeup") >= 0
         );
         const stickerList = cache.filter(
-          (item) => item.label.indexOf("贴纸") >= 0
+          (item) => item.label.indexOf("Sticker") >= 0
         );
-        // makeupList.sort((a,b)=>b.weight-a.weight)
+        //makeupList.sort((a,b)=>b.weight-a.weight)
         makeupList.unshift({
           key: "none",
-          name: "无",
+          name: "None",
           selected: true,
           previewImage:
             "https://webar-static.tencent-cloud.com/assets/icon/none.png",
         });
-        // stickerList.sort((a,b)=>b.weight-a.weight)
+        //stickerList.sort((a,b)=>b.weight-a.weight)
         stickerList.unshift({
           key: "none",
-          name: "无",
+          name: "None",
           selected: true,
           previewImage:
             "https://webar-static.tencent-cloud.com/assets/icon/none.png",
@@ -328,7 +328,7 @@ Page({
   onChangeFilter(e) {
     let { id } = e.detail;
     if (id === "none") {
-      this.sdk.setFilter("", 0); // 清空滤镜效果
+      this.sdk.setFilter("", 0); //Clear filter effect
       return;
     }
     const parts = id.split("-");
@@ -342,7 +342,7 @@ Page({
       this.data._makeupId = "none";
       this.sdk.setEffect(
         this.data._stickerId === "none" ? [] : [this.data._stickerId]
-      ); // 清空美妆效果
+      ); //Clear the beauty effects
       return;
     }
     const parts = id.split("-");
@@ -359,7 +359,7 @@ Page({
       this.data._stickerId = "none";
       this.sdk.setEffect(
         this.data._makeupId === "none" ? [] : [this.data._makeupId]
-      ); // 清空贴纸效果
+      ); //Clear sticker effect
       return;
     }
     const parts = id.split("-");
@@ -372,7 +372,7 @@ Page({
   },
   onChangeBeauty(e) {
     const key = e.currentTarget.dataset.key;
-    this.data._beauty[key] = e.detail.value / 100; // 数据归一化
+    this.data._beauty[key] = e.detail.value / 100; //Data normalization
     this.sdk.setBeautify(this.data._beauty);
   },
   onUnload() {

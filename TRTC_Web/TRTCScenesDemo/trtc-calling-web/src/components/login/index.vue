@@ -1,7 +1,12 @@
 <template>
   <div class="user-login">
-    <el-input placeholder="用户ID" v-model="UserID" maxlength="11" class="phone-num"></el-input>
-    <el-button class="user-login-btn" @click="handleLogin">登陆</el-button>
+    <el-input
+      placeholder="User ID"
+      v-model="UserID"
+      maxlength="11"
+      class="phone-num"
+    ></el-input>
+    <el-button class="user-login-btn" @click="handleLogin">Login</el-button>
   </div>
 </template>
 
@@ -14,14 +19,14 @@ export default {
     return {
       UserID: "",
       verifyCode: "",
-      disableFetchCodeBtn: false
+      disableFetchCodeBtn: false,
     };
   },
   methods: {
-    handleLogin: async function() {
+    handleLogin: async function () {
       console.log("userid");
       if (!this.UserID) {
-        this.$message.error("请输入用户ID");
+        this.$message.error("Please enter user ID");
         return;
       }
 
@@ -30,16 +35,16 @@ export default {
       this.$store.commit("userLoginSuccess");
       this.$store.commit("setLoginUserInfo", {
         userId,
-        userSig
+        userSig,
       });
 
-      // 登录 trtcCalling
+      //Login trtcCalling
       this.$trtcCalling.login({
         userID: this.UserID,
-        userSig
+        userSig,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

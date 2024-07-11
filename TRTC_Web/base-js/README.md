@@ -1,307 +1,338 @@
-本文主要介绍如何快速运行腾讯云 TRTC Web SDK Demo。
+This article mainly introduces how to quickly run Tencent Cloud TRTC Web SDK Demo.
 
-## 支持的平台
+## Supported platforms
 
-WebRTC 技术由 Google 最先提出，目前主要在桌面版 Chrome 浏览器、桌面版 Safari 浏览器以及移动版的 Safari 浏览器上有较为完整的支持，其他平台（例如 Android 平台的浏览器）支持情况均比较差。
-- 在移动端推荐使用 [小程序](https://cloud.tencent.com/document/product/647/32399) 解决方案，微信和手机 QQ 小程序均已支持，都是由各平台的 Native 技术实现，音视频性能更好，且针对主流手机品牌进行了定向适配。
-- 如果您的应用场景主要为教育场景，那么教师端推荐使用稳定性更好的 [Electron](https://cloud.tencent.com/document/product/647/38549) 解决方案，支持大小双路画面，更灵活的屏幕分享方案以及更强大而弱网络恢复能力。
+WebRTC technology was first proposed by Google. Currently, it has relatively complete support on the desktop version of Chrome browser, desktop version of Safari browser and mobile version of Safari browser. The support status of other platforms (such as Android platform browsers) is relatively low. Difference.
+-It is recommended to use [mini program](https://cloud.tencent.com/document/product/647/32399) solution on the mobile side. WeChat and mobile QQ mini programs are both supported and are powered by the Native technology of each platform. Realization, audio and video performance is better, and targeted adaptation for mainstream mobile phone brands.
+-If your application scenario is mainly an educational scenario, then the teacher side recommends using the more stable [Electron](https://cloud.tencent.com/document/product/647/38549) solution, which supports both large and small channels. screen, a more flexible screen sharing solution and stronger but weak network resilience.
 
 <table>
 <tr>
-<th>操作系统</th>
-<th width="22%">浏览器类型</th><th>浏览器最低<br>版本要求</th><th width="16%">接收（播放）</th><th width="16%">发送（上麦）</th><th>屏幕分享</th><th>SDK 版本要求</th>
+<th>Operating System</th>
+<th width="22%">Browser type</th><th>Browser minimum <br>version requirements</th><th width="16%">Receive (play)</th><th width="16%">Send (on the mic)</th><th>Screen sharing</th><th>SDK version requirements</th>
 </tr><tr>
 <td>Mac OS</td>
-<td>桌面版 Safari 浏览器</td>
+<td>Desktop Safari browser</td>
 <td>11+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Safari13+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Safari13+ version)</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Mac OS</td>
-<td>桌面版 Chrome 浏览器</td>
+<td>Desktop Chrome browser</td>
 <td>56+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Chrome72+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Chrome72+ version)</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Mac OS</td>
-<td>桌面版 Firefox 浏览器</td>
+<td>Desktop version of Firefox browser</td>
 <td>56+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Firefox66+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Firefox66+ version)</td>
 <td>v4.7.0+</td>
 </tr>
 <tr>
 <td>Mac OS</td>
-<td>桌面版 Edge 浏览器</td>
+<td>Desktop version of Edge browser</td>
 <td>80+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持</td>
+<td>Support</td>
+<td>Support</td>
+<td>Support</td>
 <td>v4.7.0+</td>
 </tr>
 <tr>
 <td>Windows</td>
-<td>桌面版 Chrome 浏览器</td>
+<td>Desktop Chrome browser</td>
 <td>56+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Chrome72+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Chrome72+ version)</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Windows</td>
-<td>桌面版 QQ 浏览器（极速内核）</td>
+<td>Desktop version of QQ browser (extremely fast kernel)</td>
 <td>10.4+</td>
-<td>支持</td>
-<td>支持</td>
-<td>不支持</td>
+<td>Support</td>
+<td>Support</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Windows</td>
-<td>桌面版 Firefox 浏览器</td>
+<td>Desktop version of Firefox browser</td>
 <td>56+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Firefox66+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Firefox66+ version)</td>
 <td>v4.7.0+</td>
 </tr>
 <tr>
 <td>Windows</td>
-<td>桌面版 Edge 浏览器</td>
+<td>Desktop version of Edge browser</td>
 <td>80+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持</td>
+<td>Support</td>
+<td>Support</td>
+<td>Support</td>
 <td>v4.7.0+</td>
 </tr>
 <tr>
 <td>iOS 11.1.2+</td>
-<td>移动版 Safari 浏览器</td>
+<td>Mobile Safari</td>
 <td>11+</td>
-<td>支持</td>
-<td>支持</td>
-<td>不支持</td>
+<td>Support</td>
+<td>Support</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 <tr>
 <td>iOS 12.1.4+</td>
-<td>微信内嵌网页</td>
+<td>WeChat embedded web page</td>
 <td>-</td>
-<td>支持</td>
-<td>不支持</td>
-<td>不支持</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Android</td>
-<td>移动版 QQ 浏览器</td>
-<td>-</td>
-<td>不支持</td>
-<td>不支持</td>
-<td>不支持</td>
+<td>Support</td>
+<td>Not supported</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Android</td>
-<td>移动版 UC 浏览器</td>
+<td>Mobile QQ Browser</td>
 <td>-</td>
-<td>不支持</td>
-<td>不支持</td>
-<td>不支持</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Android</td>
-<td>微信内嵌网页（TBS 内核）</td>
-<td>-</td>
-<td>支持</td>
-<td>支持</td>
-<td>不支持</td>
+<td>Not supported</td>
+<td>Not supported</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Android</td>
-<td>微信内嵌网页（XWEB 内核）</td>
+<td>Mobile UC Browser</td>
 <td>-</td>
-<td>支持</td>
-<td>支持</td>
-<td>不支持</td>
+<td>Not supported</td>
+<td>Not supported</td>
+<td>Not supported</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>WeChat embedded web page (TBS core)</td>
+<td>-</td>
+<td>Support</td>
+<td>Support</td>
+<td>Not supported</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>WeChat embedded web page (XWEB core)</td>
+<td>-</td>
+<td>Support</td>
+<td>Support</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 </table>
 
->! 
->- 您可以在浏览器中打开 [WebRTC 能力测试](https://web.sdk.qcloud.com/trtc/webrtc/demo/detect/index.html) 页面进行检测是否完整支持 WebRTC。例如公众号等浏览器环境。
->- 由于 H.264 版权限制，华为系统的 Chrome 浏览器和以 Chrome WebView 为内核的浏览器均不支持 TRTC 的 Web 版 SDK 的正常运行。
+> !
+> -You can open the [WebRTC Capability Test](https://web.sdk.qcloud.com/trtc/webrtc/demo/detect/index.html) page in your browser to check whether WebRTC is fully supported. For example, browser environments such as official accounts.
+> -Due to H.264 copyright restrictions, Huawei's Chrome browser and Chrome WebView-based browsers do not support the normal operation of TRTC's Web version SDK.
 >
-<span id="requirements"></span>
-## 环境要求
-- 请使用最新版本的 Chrome 浏览器。
-- TRTC Web SDK 依赖以下端口进行数据传输，请将其加入防火墙白名单，参考：[WebRTC 需要配置哪些端口或域名为白名单？](https://cloud.tencent.com/document/product/647/34399#webrtc-.E9.9C.80.E8.A6.81.E9.85.8D.E7.BD.AE.E5.93.AA.E4.BA.9B.E7.AB.AF.E5.8F.A3.E6.88.96.E5.9F.9F.E5.90.8D.E4.B8.BA.E7.99.BD.E5.90.8D.E5.8D.95.EF.BC.9F) 配置完成后，您可以通过访问并体验 [官网 Demo](https://web.sdk.qcloud.com/trtc/webrtc/demo/api-sample/login.html) 检查配置是否生效。 
- 
-## 前提条件
-您已 [注册腾讯云](https://cloud.tencent.com/document/product/378/17985) 账号，并完成 [实名认证](https://cloud.tencent.com/document/product/378/3629)。
+> <span id="requirements"></span>
 
-## 操作步骤
-<span id="step1"></span>
-### 步骤1：创建新的应用
-1. 登录实时音视频控制台，选择【开发辅助】>【[快速跑通Demo](https://console.cloud.tencent.com/trtc/quickstart)】。
-2. 单击【立即开始】，输入应用名称，例如`TestTRTC`，单击【创建应用】。
+## Environmental requirements
 
-<span id="step2"></span>
-### 步骤2：下载 SDK 和 Demo 源码
-1. 鼠标移动至对应卡片，单击【[Github](https://github.com/tencentyun/TRTCSDK/tree/master/Web)】跳转至 Github（或单击【[ZIP](https://web.sdk.qcloud.com/trtc/webrtc/download/webrtc_latest.zip)】），下载相关 SDK 及配套的 Demo 源码。
- ![](https://main.qcloudimg.com/raw/0f35fe3bafe9fcdbd7cc73f991984d1a.png)
-2. 下载完成后，返回实时音视频控制台，单击【我已下载，下一步】，可以查看 SDKAppID 和密钥信息。
+-Please use the latest version of Chrome browser.
+-TRTC Web SDK relies on the following ports for data transmission, please add them to the firewall whitelist, refer to: [Which ports or domain names need to be configured as whitelists for WebRTC? ](https://cloud.tencent.com/document/product/647/34399#webrtc-.E9.9C.80.E8.A6.81.E9.85.8D.E7.BD.AE.E5.93. AA.E4.BA.9B.E7.AB.AF.E5.8F.A3.E6.88.96.E5.9F.9F.E5.90.8D.E4.B8.BA.E7.99.BD.E5.90.8 D.E5.8D.95.EF.BC.9F) After the configuration is completed, you can visit and experience the [official website Demo](https://web.sdk.qcloud.com/trtc/webrtc/demo/api-sample /login.html) Check whether the configuration takes effect.
 
-<span id="step3"></span>
-### 步骤3：配置 Demo 工程文件
-1. 解压 [步骤2](#step2) 中下载的源码包。
-2. 找到并打开`Web/base-js/js/debug/GenerateTestUserSig.js`文件。
-3. 设置`GenerateTestUserSig.js`文件中的相关参数：
-  <ul><li>SDKAPPID：默认为0，请设置为实际的 SDKAppID。</li>
-  <li>SECRETKEY：默认为空字符串，请设置为实际的密钥信息。</li></ul> 
-	<img src="https://main.qcloudimg.com/raw/1732ea2401af6111b41259a78b5330a4.png">
-4. 返回实时音视频控制台，单击【粘贴完成，下一步】。
-5. 单击【关闭指引，进入控制台管理应用】。
+## Prerequisites
 
->!本文提到的生成 UserSig 的方案是在客户端代码中配置 SECRETKEY，该方法中 SECRETKEY 很容易被反编译逆向破解，一旦您的密钥泄露，攻击者就可以盗用您的腾讯云流量，因此**该方法仅适合本地跑通 Demo 和功能调试**。
->正确的 UserSig 签发方式是将 UserSig 的计算代码集成到您的服务端，并提供面向 App 的接口，在需要 UserSig 时由您的 App 向业务服务器发起请求获取动态 UserSig。更多详情请参见 [服务端生成 UserSig](https://cloud.tencent.com/document/product/647/17275#Server)。
+You have [registered a Tencent Cloud](https://cloud.tencent.com/document/product/378/17985) account and completed [real-name authentication](https://cloud.tencent.com/document/product/378 /3629).
 
-### 步骤4：运行 Demo
-使用 Chrome 浏览器打开 Demo 根目录下的`index.html`文件即可运行 Demo。
+## Steps
 
->!
-> - 一般情况下体验 Demo 需要部署至服务器，通过`https://域名/xxx`访问，或者直接在本地搭建服务器，通过`localhost:端口`访问。
-> - 目前桌面端 Chrome 浏览器支持 TRTC Web SDK 的相关特性比较完整，因此建议使用 Chrome 浏览器进行体验。
+<span id="step1"></span>
 
-Demo 运行界面如图所示：
+### Step 1: Create a new application
+
+1. Log in to the real-time audio and video console, select [Development Assistance] > [Quick Run Demo] (https://console.cloud.tencent.com/trtc/quickstart)].
+2. Click [Start Now], enter the application name, such as `TestTRTC`, and click [Create Application].
+
+<span id="step2"></span>
+
+### Step 2: Download SDK and Demo source code
+
+1. Move the mouse to the corresponding card, click [[Github](https://github.com/tencentyun/TRTCSDK/tree/master/Web)] to jump to Github (or click [[ZIP](https://web.sdk.qcloud.com/trtc/webrtc/download/webrtc_latest.zip)]), download the relevant SDK and supporting Demo source code.
+   ![](https://main.qcloudimg.com/raw/0f35fe3bafe9fcdbd7cc73f991984d1a.png)
+2. After the download is completed, return to the real-time audio and video console and click [I have downloaded, Next] to view the SDKAppID and key information.
+
+<span id="step3"></span>
+
+### Step 3: Configure Demo project files
+
+1. Unzip the source code package downloaded in [Step 2](#step2).
+2. Find and open the `Web/base-js/js/debug/GenerateTestUserSig.js` file.
+3. Set the relevant parameters in the `GenerateTestUserSig.js` file:
+<ul><li>SDKAPPID: The default is 0, please set it to the actual SDKAppID. </li>
+  <li>SECRETKEY: The default is an empty string, please set it to the actual key information. </li></ul>
+<img src="https://main.qcloudimg.com/raw/1732ea2401af6111b41259a78b5330a4.png">
+4. Return to the real-time audio and video console and click [Paste Complete, Next].
+5. Click [Close the guide and enter the console management application].
+
+> ! The solution to generate UserSig mentioned in this article is to configure SECRETKEY in the client code. In this method, SECRETKEY can easily be decompiled and reverse cracked. Once your key is leaked, the attacker can steal your Tencent Cloud traffic. Therefore **This method is only suitable for local run-through Demo and functional debugging**.
+> The correct way to issue UserSig is to integrate the UserSig calculation code into your server and provide an App-oriented interface. When UserSig is needed, your App initiates a request to the business server to obtain the dynamic UserSig. For more details, please see [Server-side generation of UserSig](https://cloud.tencent.com/document/product/647/17275#Server).
+
+### Step 4: Run Demo
+
+Use the Chrome browser to open the `index.html` file in the Demo root directory to run the Demo.
+
+> !
+> -Generally, to experience the Demo, you need to deploy it to a server and access it through `https://domain name/xxx`, or build a server directly locally and access it through `localhost:port`.
+> -At present, the desktop Chrome browser supports the TRTC Web SDK related features relatively completely, so it is recommended to use the Chrome browser to experience it.
+
+The Demo running interface is shown in the figure:
 ![](https://main.qcloudimg.com/raw/e989c968446e6e3bdcc19c58e40e2b86.png)
-- 单击【加入房间】加入音视频通话房间并且发布本地音视频流。
- 您可以打开多个页面，每个页面都单击 【加入房间】，正常情况下可以看到多个画面并模拟实时音视频通话。
-- 单击摄像头图标可以选择摄像头设备。
-- 单击麦克风图表可以选择麦克风设备。
+-Click [Join Room] to join the audio and video call room and publish local audio and video streams.
+You can open multiple pages and click [Join Room] on each page. Under normal circumstances, you can see multiple screens and simulate real-time audio and video calls.
+-Click the camera icon to select a camera device.
+-Click on the microphone chart to select a microphone device.
 
->?WebRTC 需要使用摄像头和麦克风采集音视频，在体验过程中您可能会收到来自 Chrome 浏览器的相关提示，单击【允许】。
+> ?WebRTC requires the use of a camera and microphone to collect audio and video. During the experience, you may receive relevant prompts from the Chrome browser. Click [Allow].
 > ![](https://main.qcloudimg.com/raw/1a2c1e7036720b11f921f8ee1829762a.png)
 
-## 常见问题
+## common problem
 
-### 一、基础环境问题
-#### Web 端 SDK 支持哪些浏览器？
-TRTC Web SDK 对浏览器的详细支持度，您可以查看 [TRTC Web SDK 对浏览器支持情况](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-05-info-browser.html)。
-对于上述没有列出的环境，您可以在当前浏览器打开 [TRTC 能力测试](https://web.sdk.qcloud.com/trtc/webrtc/demo/detect/index.html) 测试是否完整的支持 WebRTC 的功能。
+### 1. Basic environmental issues
 
-#### 通话前音视频设备测试？
-您可以查看 [通话前环境与设备检测](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-23-advanced-support-detection.html) 。
+#### Which browsers does the web SDK support?
 
-#### 如何实时检测当前网络的情况？
-[通话前的网络质量检测](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-24-advanced-network-quality.html)
+For detailed browser support of TRTC Web SDK, you can view [TRTC Web SDK browser support](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-05 -info-browser.html).
+For environments not listed above, you can open [TRTC Capability Test](https://web.sdk.qcloud.com/trtc/webrtc/demo/detect/index.html) in your current browser to test whether it is fully supported. WebRTC features.
 
-#### 是否支持混流，旁路推流，大小流，美颜？
-您可以查看这些文档来实现高级功能：[混流](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/Client.html#startMixTranscode), [旁路推流](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-26-advanced-publish-cdn-stream.html), [大小流](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-27-advanced-small-stream.html), [美颜](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-28-advanced-beauty.html)
+#### Audio and video equipment test before call?
 
-### 二、推拉流问题
-#### Web 端 SDK 日志中报错 NotFoundError、NotAllowedError、NotReadableError、OverConstrainedError 以及 AbortError 分别是什么意思？
-| 错误名           | 描述                                                     | 处理建议                                                 |
-| -------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| NotFoundError        | 找不到满足请求参数的媒体类型（包括音频、视频、屏幕分享）。 例如：PC 没有摄像头，但是请求浏览器获取视频流，则会报此错误。 | 建议在通话开始前引导用户检查通话所需的摄像头或麦克风等设备，若没有摄像头且需要进行语音通话，可在 [TRTC.createStream({ audio: true, video: false })](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/TRTC.html#.createStream) 指明仅采集麦克风。 |
-| NotAllowedError      | 用户拒绝了当前的浏览器实例的访问音频、视频、屏幕分享请求。   | 提示用户不授权摄像头/麦克风访问将无法进行音视频通话。        |
-| NotReadableError     | 用户已授权使用相应的设备，但由于操作系统上某个硬件、浏览器或者网页层面发生的错误导致设备无法被访问。 | 根据浏览器的报错信息处理，并提示用户“暂时无法访问摄像头/麦克风，请确保当前没有其他应用请求访问摄像头/麦克风，并重试”。 |
-| OverConstrainedError | cameraId/microphoneId 参数的值无效。                         | 请确保 cameraId/microphoneId 传值正确且有效。                |
-| AbortError           | 由于某些未知原因导致设备无法被使用。                         | -                                                            |
-更多详情请参见 [initialize](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/LocalStream.html?#initialize) 。
+You can view [Pre-call environment and device detection](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-23-advanced-support-detection.html).
 
-#### 部分手机上的浏览器无法正常运行 TRTC 进行推拉流？
-TRTC Web SDK 对浏览器的详细支持度，您可以查看 [TRTC Web SDK 对浏览器支持情况](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-05-info-browser.html)。
-对于上述没有列出的环境，您可以在当前浏览器打开 [TRTC 能力测试](https://web.sdk.qcloud.com/trtc/webrtc/demo/detect/index.html) 测试是否完整的支持 WebRTC 的功能。
+#### How to detect the current network situation in real time?
 
-#### Web 端用宽高设置推流的分辨率是所有浏览器都适用吗？
-由于设备和浏览器的限制，视频分辨率不一定能够完全匹配，在这种情况下，浏览器会自动调整分辨率使其接近 Profile 对应的分辨率。详情请参见 [setVideoProfile](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/LocalStream.html?#setVideoProfile) 。
+[Network quality test before call](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-24-advanced-network-quality.html)
 
-#### Web端屏幕分享的样式支持修改吗？
-屏幕分享的样式由浏览器控制，目前不能修改。
+#### Does it support mixed streaming, bypass push streaming, large and small streams, and beauty?
 
-#### Web端支持混流吗？
-Web端支持发起混流，[点击查看如何调用混流转码接口](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/Client.html#startMixTranscode) 。
+You can check these documents to implement advanced functions: [Mixing](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/Client.html#startMixTranscode), [Bypass Push](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-26-advanced-publish-cdn-stream.html), [Big and small streams](https://web.sdk. qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-27-advanced-small-stream.html), [Beauty](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-28-advanced-beauty.html)
 
-#### Web 端 SDK 在使用的过程中拔掉摄像头，怎么清除摄像头列表里面的数据？
-可以尝试调用 [TRTC.getCameras](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/TRTC.html#.getCameras) 方法是否能获取新的设备列表，如果仍然有拔掉的摄像头信息，说明浏览器底层也没有刷新这个列表，Web 端 SDK 也获取不到新的设备列表信息。
+### 2. Push-pull flow problem
 
+#### What do the errors NotFoundError, NotAllowedError, NotReadableError, OverConstrainedError and AbortError reported in the web SDK log mean?
 
-### iOS 的微信内嵌浏览器不能正常推流？
-[点击查看](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-05-info-browser.html) iOS上的微信内嵌浏览器对推拉流的支持情况。
+| Error name           | Description                                                                                                                                                                                                                                     | Handling suggestions                                                                                                                                                                                                                                                                                                                                    |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NotFoundError        | The media type (including audio, video, screen sharing) that satisfies the request parameters cannot be found. For example: if the PC does not have a camera, but requests the browser to obtain the video stream, this error will be reported. | It is recommended to guide the user to check the camera or microphone required for the call before starting the call. If there is no camera and a voice call is required, [TRTC.createStream({ audio: true, video: false })](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/TRTC.html#.createStream) specifies that only the microphone is collected. |
+| NotAllowedError      | The user has denied access to audio, video, or screen sharing for the current browser instance.                                                                                                                                                 | Prompts users that they will not be able to make audio and video calls without authorizing camera/microphone access.                                                                                                                                                                                                                                    |
+| NotReadableError     | The user has authorized the use of the corresponding device, but the device cannot be accessed due to a hardware, browser or web-level error on the operating system.                                                                           | Handle the error message according to the browser and prompt the user that "the camera/microphone cannot be accessed temporarily. Please ensure that no other application currently requests access to the camera/microphone and try again."                                                                                                            |
+| OverConstrainedError | The value of cameraId/microphoneId parameter is invalid.                                                                                                                                                                                        | Please ensure that the cameraId/microphoneId passed value is correct and valid.                                                                                                                                                                                                                                                                         |
+| AbortError           | The device cannot be used for some unknown reason.                                                                                                                                                                                              | -                                                                                                                                                                                                                                                                                                                                                       |
 
-### 三、播放问题
-#### 音视频互通过程中出现有画面没有声音问题？
-因浏览器自动播放策略限制，音频播放会出现 PLAY_NOT_ALLOWED 异常，此时业务层需要引 导用户手动操作 Stream.resume() 来恢复音频播放，[自动播放受限处理建议](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-21-advanced-auto-play-policy.html) 。
-未知异常导致，请通过监控仪表盘查询收发两端的 audioLevel & audioEnergy。
+See [initialize](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/LocalStream.html?#initialize) for more details.
 
+#### Browsers on some mobile phones cannot run TRTC properly for push and pull streaming?
 
-#### Web通话画面显示不了?
-检查一下 Web 页面上是否有获取到数据，在确认数据收发正常时，可以检查 `<video>` 元素的 srcObject 属性是否赋值了正确的 mediaStream 对象，如果赋值错误，肯定显示不了。
+For detailed browser support of TRTC Web SDK, you can view [TRTC Web SDK browser support](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-05 -info-browser.html).
+For environments not listed above, you can open [TRTC Capability Test](https://web.sdk.qcloud.com/trtc/webrtc/demo/detect/index.html) in your current browser to test whether it is fully supported. WebRTC features.
 
+#### Is it applicable to all browsers when setting the width and height to push the streaming resolution on the web side?
 
-#### Web 通话过程中出现回声、杂音、噪声、声音小？
-通话双方的设备相距太近的时候，属于正常现象，测试时请相互距离远一点。当其他端听到 Web 端的声音存在回声、噪声、杂音等情况时，说明 Web 端的 3A 处理没有生效。
-若您使用了浏览器原生 [getUserMedia](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia) API 进行自定义采集，则需要手动设置 3A 参数：
-- echoCancellation：回声消除开关
-- noiseSuppression：噪声抑制开关
-- autoGainControl：自动增益开关? 详细设置参考 [媒体追踪约束](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaTrackConstraints) 。
+Due to device and browser limitations, the video resolution may not match exactly. In this case, the browser will automatically adjust the resolution to be close to the resolution corresponding to the Profile. For details, see [setVideoProfile](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/LocalStream.html?#setVideoProfile).
 
-若您使用 [TRTC.createStream](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/TRTC.html#createStream) 接口进行采集，则无需手动设置 3A 参数，SDK 默认开启 3A。
+#### Does the style of screen sharing on the web side support modification?
 
-### 四、其他
-####  运行 Web 端 SDK 时，出现错误：“RtcError: no valid ice candidate found”该如何处理？
-出现该错误说明 TRTC Web SDK 在建立媒体传输通道时失败，请检查防火墙配置。TRTC Web SDK 依赖以下端口进行数据传输，请将其加入防火墙白名单，配置完成后，您可以通过访问并体验 [官网 Demo](https://web.sdk.qcloud.com/trtc/webrtc/demo/latest/official-demo/index.html) 检查配置是否生效。
-请查看 [应对防火墙限制相关](https://cloud.tencent.com/document/product/647/34399)
+The style of screen sharing is controlled by the browser and cannot be modified currently.
 
+#### Does the web side support mixed streaming?
 
-####  出现客户端错误："RtcError: ICE/DTLS Transport connection failed" 或 “RtcError: DTLS Transport connection timeout”该如何处理？
-出现该错误说明 TRTC Web SDK 在建立媒体传输通道时失败，请检查防火墙配置。TRTC Web SDK 依赖以下端口进行数据传输，请将其加入防火墙白名单，配置完成后，您可以通过访问并体验 [官网 Demo](https://web.sdk.qcloud.com/trtc/webrtc/demo/latest/official-demo/index.html) 检查配置是否生效。
-请查看 [应对防火墙限制相关](https://cloud.tencent.com/document/product/647/34399)
+The web side supports initiating mixed streaming, [click to see how to call the mixed streaming transcoding interface](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/Client.html#startMixTranscode).
 
-### Web 端 SDK 可以获取当前音量大小吗？
-可以通过 [getAudioLevel](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/LocalStream.html#getAudioLevel) 获取当前音量大小，[详细教程请查看](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-13-basic-switch-camera-mic.html) 。
+#### How to clear the data in the camera list if the camera is unplugged during use of the Web SDK?
 
-#### 什么情况会触发 Client.on(‘client-banned’)？
-通过后台 RESTAPI [移除用户](https://cloud.tencent.com/document/product/647/40496?from=10680) 会触发这个事件。需要注意的是同名用户同时登录不会触发这个事件，这种行为是业务逻辑错误，业务应当从逻辑上避免。若客户需要房间内成员互踢管理，建议客户使用 WebIM SDK实现相关逻辑。
+You can try calling the [TRTC.getCameras](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/TRTC.html#.getCameras) method to see if the new device list can be obtained. If there is still The unplugged camera information indicates that the bottom layer of the browser has not refreshed the list, and the web SDK cannot obtain new device list information.
 
+### Is the WeChat embedded browser on iOS unable to push streams normally?
 
-#### Web 端是否可以监听远端离开房间？
-支持监听远端退房事件，建议使用客户端事件中的 [client.on('peer-leave')](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/module-Event.html) 事件实现远端用户退房通知。
+[Click to view](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-05-info-browser.html) WeChat embedded browser on iOS supports push and pull streams Condition.
 
+### 3. Playback issues
 
-#### 实时音视频的 Web 端、小程序端、PC 端是不是同步的？
-是的，实时音视频支持全平台互通。
+#### Is there a picture but no sound problem during audio and video interaction?
 
+Due to browser autoplay policy restrictions, audio playback will cause a PLAY_NOT_ALLOWED exception. At this time, the business layer needs to guide the user to manually operate Stream.resume() to resume audio playback. [Recommendations for Handling Restricted Autoplay] (https://web.sdk .qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-21-advanced-auto-play-policy.html).
+Caused by an unknown exception, please check the audioLevel & audioEnergy of both sending and receiving ends through the monitoring dashboard.
 
-#### 实时音视频 Web 端的截图功能如何实现？
-参考 [Stream.getVideoFrame()](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/Stream.html#getVideoFrame) 接口。
+#### The web call screen cannot be displayed?
 
+Check whether the data is obtained on the Web page. When confirming that the data is sent and received normally, you can check whether the srcObject attribute of the `<video>` element is assigned the correct mediaStream object. If the assignment is wrong, it will definitely not be displayed.
 
-#### Web 端 SDK 怎么录制纯音频推流？为什么在控制台开启自动旁路和自动录制录制不成功呢？
-需要设置 [createClient](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/TRTC.html#.createClient) 的 pureAudioPushMode 参数。
+#### Are there echoes, noises, noises, or low sounds during web calls?
 
+It is normal for the devices of both parties to call to be too close to each other. Please keep them farther away from each other when testing. When other terminals hear echo, noise, noise, etc. in the Web terminal's voice, it means that the Web terminal's 3A processing is not effective.
+If you use the browser's native [getUserMedia](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia) API for custom collection, you need to manually set the 3A parameters:
+-echoCancellation: echo cancellation switch
+-noiseSuppression: noise suppression switch
+-autoGainControl: Automatic gain switch? For detailed settings, please refer to [Media Tracking Constraints](https://developer.mozilla.org/zh-CN/docs/Web/API/MediaTrackConstraints).
 
-#### 出现Client.on(‘error’)问题该如何处理？
-这个表示 SDK 遇到不可恢复错误，业务层要么刷新页面重试要么调用 Client.leave 退房后再调用 Client.join 重试。
+If you use the [TRTC.createStream](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/TRTC.html#createStream) interface for collection, you do not need to manually set the 3A parameters. The SDK defaults Turn on 3A.
 
-#### 小程序和 Web 端支持自定义流ID吗？
-Web端4.3.8以上版本已支持自定义流ID，可以更新SDK版本。 小程序当前暂不支持。
+### 4. Others
 
+#### When running the web SDK, an error occurs: "RtcError: no valid ice candidate found". How to deal with it?
 
-#### Web 端如何在屏幕分享的时候采集系统声音？
-[点击查看教程](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-16-basic-screencast.html#h2-6)，采集系统声音只支持 Chrome M74+ ，在 Windows 和 Chrome OS 上，可以捕获整个系统的音频，在 Linux 和 Mac 上，只能捕获选项卡的音频。其它 Chrome 版本、其它系统、其它浏览器均不支持。
+This error indicates that TRTC Web SDK failed to establish the media transmission channel. Please check the firewall configuration. TRTC Web SDK relies on the following ports for data transmission. Please add them to the firewall whitelist. After the configuration is completed, you can visit and experience [official website Demo](https://web.sdk.qcloud.com/trtc/webrtc/demo /latest/official-demo/index.html) Check whether the configuration takes effect.
+Please check [Related to dealing with firewall restrictions](https://cloud.tencent.com/document/product/647/34399)
 
+#### How to deal with the client error: "RtcError: ICE/DTLS Transport connection failed" or "RtcError: DTLS Transport connection timeout"?
 
-#### Web 端如何切换摄像头和麦克风？
-[点击查看教程](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-13-basic-switch-camera-mic.html)，您可以先获取到系统的摄像头和麦克风设备后，调用 [switchDevice](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/LocalStream.html#switchDevice) 来进行切换。
+This error indicates that TRTC Web SDK failed to establish the media transmission channel. Please check the firewall configuration. TRTC Web SDK relies on the following ports for data transmission. Please add them to the firewall whitelist. After the configuration is completed, you can visit and experience [official website Demo](https://web.sdk.qcloud.com/trtc/webrtc/demo /latest/official-demo/index.html) Check whether the configuration takes effect.
+Please check [Related to dealing with firewall restrictions](https://cloud.tencent.com/document/product/647/34399)
+
+### Can the web SDK obtain the current volume?
+
+You can get the current volume through [getAudioLevel](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/LocalStream.html#getAudioLevel). [Please view the detailed tutorial](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-13-basic-switch-camera-mic.html).
+
+#### What situations will trigger Client.on(‘client-banned’)?
+
+This event will be triggered through the backend RESTAPI [Remove User](https://cloud.tencent.com/document/product/647/40496?from=10680). It should be noted that users with the same name logging in at the same time will not trigger this event. This behavior is a business logic error and should be avoided logically. If the customer needs to manage the mutual kicking of members in the room, it is recommended that the customer use the WebIM SDK to implement the relevant logic.
+
+#### Can the web end monitor the remote end leaving the room?
+
+Supports monitoring remote check-out events, it is recommended to use [client.on('peer-leave')](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/in client events module-Event.html) event to implement remote user check-out notification.
+
+#### Are the web, applet, and PC sides of real-time audio and video synchronized?
+
+Yes, real-time audio and video support interoperability across all platforms.
+
+#### How to implement the screenshot function of real-time audio and video web side?
+
+Refer to the [Stream.getVideoFrame()](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/Stream.html#getVideoFrame) interface.
+
+#### How to record pure audio streaming using the web SDK? Why is the recording not successful when turning on automatic bypass and automatic recording on the console?
+
+The pureAudioPushMode parameter of [createClient](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/TRTC.html#.createClient) needs to be set.
+
+#### How to deal with Client.on(‘error’) problem?
+
+This means that the SDK encountered an unrecoverable error, and the business layer must either refresh the page and try again or call Client.leave to check out and then call Client.join to try again.
+
+#### Do mini programs and web terminals support custom stream IDs?
+
+Web version 4.3.8 or above already supports custom stream IDs, and the SDK version can be updated. Mini programs are currently not supported.
+
+#### How to collect system sound during screen sharing on the web side?
+
+[Click to view the tutorial](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-16-basic-screencast.html#h2-6), collecting system sound only supports Chrome M74+ , on Windows and Chrome OS, can capture the entire system's audio, on Linux and Mac, only the tab's audio can be captured. Other Chrome versions, other systems, and other browsers are not supported.
+
+#### How to switch the camera and microphone on the web?
+
+[Click to view the tutorial](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/tutorial-13-basic-switch-camera-mic.html), you can first obtain the system After installing the camera and microphone devices, call [switchDevice](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/LocalStream.html#switchDevice) to switch.

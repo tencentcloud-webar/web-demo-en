@@ -1,18 +1,22 @@
 <template>
   <div class="header-nav">
     <div class="header-nav-left">
-      <div class="header-nav-title">腾讯云TRTC实时互动</div>
-      <div class="header-nav-homepage" @click="gotoHomePage">首页</div>
+      <div class="header-nav-title">
+        Tencent Cloud TRTC real-time interaction
+      </div>
+      <div class="header-nav-homepage" @click="gotoHomePage">Homepage</div>
     </div>
     <div class="header-nav-help">
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
-          更多
+          More
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="command-detect">设备检测</el-dropdown-item>
-          <el-dropdown-item command="command-logout">登出</el-dropdown-item>
+          <el-dropdown-item command="command-detect"
+            >Equipment testing</el-dropdown-item
+          >
+          <el-dropdown-item command="command-logout">Sign out</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -24,7 +28,7 @@ import { setUserLoginInfo } from "../../utils";
 export default {
   name: "HeaderNav",
   methods: {
-    handleCommand: function(command) {
+    handleCommand: function (command) {
       if (command === "command-detect") {
         window.open(
           "https://web.sdk.qcloud.com/trtc/webrtc/demo/detect/index.html",
@@ -38,16 +42,16 @@ export default {
         this.$store.commit("userLogoutSuccess");
         setUserLoginInfo({
           token: "",
-          phoneNum: ""
+          phoneNum: "",
         });
       }
     },
-    gotoHomePage: function() {
+    gotoHomePage: function () {
       if (this.$router.currentRoute.fullPath !== "/") {
         this.$router.push("/");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

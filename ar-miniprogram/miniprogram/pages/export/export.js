@@ -1,62 +1,58 @@
-// pages/export/export.js
+//pages/export/export.js
 Page({
-
   /**
-   * 页面的初始数据
+   *Initial data of the page
    */
   data: {
-    file: '',
-    backBtnTop: 40
+    file: "",
+    backBtnTop: 40,
   },
 
   /**
-   * 生命周期函数--监听页面加载
+   *Life cycle function--listen to page loading
    */
   onLoad: function (options) {
     this.setData({
       file: options.file,
-    })
+    });
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
+   *Life cycle function--listen to the completion of the initial rendering of the page
    */
-  onReady: function () {
-
-  },
+  onReady: function () {},
 
   /**
-   * 生命周期函数--监听页面显示
+   *Life cycle function--monitoring page display
    */
-  onShow: function () {
-
-  },
-  onClickExport(){
+  onShow: function () {},
+  onClickExport() {
     wx.saveVideoToPhotosAlbum({
       filePath: this.data.file,
-      success:() => {
+      success: () => {
         wx.showToast({
-          title: "导出成功！"
+          title: "Export successful!",
         });
-        setTimeout(_=>{
+        setTimeout((_) => {
           wx.navigateBack({
-            delta: 2
-          })
-        },1000)
-      }
-    })
+            delta: 2,
+          });
+        }, 1000);
+      },
+    });
   },
   goBack() {
     wx.showModal({
-      title: '提示',
-      content: '返回将丢失当前拍摄效果，确定返回？',
+      title: "Tips",
+      content:
+        "Returning will lose the current shooting effect. Are you sure you want to return? ",
       success: (res) => {
         if (res.confirm) {
           wx.navigateBack();
         } else if (res.cancel) {
-          console.log('用户点击取消')
+          console.log("User clicks cancel");
         }
-      }
-    })
+      },
+    });
   },
-})
+});

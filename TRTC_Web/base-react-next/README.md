@@ -1,259 +1,280 @@
-[WebRTC API Examples](https://web.sdk.qcloud.com/trtc/webrtc/demo/api-sample/index.html) 展示了 [WebRTC API 接口](https://web.sdk.qcloud.com/trtc/webrtc/doc/zh-cn/Client.html) 的使用场景，方便客户了解 API 接口功能并快速接入到现有工程中。
+[WebRTC API Examples](https://web.sdk.qcloud.com/trtc/webrtc/demo/api-sample/index.html) demonstrates [WebRTC API interface](https://web.sdk.qcloud. com/trtc/webrtc/doc/zh-cn/Client.html) usage scenarios to facilitate customers to understand the API interface functions and quickly integrate into existing projects.
 
-[WebRTC API Examples](https://web.sdk.qcloud.com/trtc/webrtc/demo/api-sample/index.html) 使用 [Next.js](https://www.nextjs.cn/) 进行开发，如有需要，您可以阅读官网相关文档。
+[WebRTC API Examples](https://web.sdk.qcloud.com/trtc/webrtc/demo/api-sample/index.html) Use [Next.js](https://www.nextjs.cn/) For development, if necessary, you can read the relevant documents on the official website.
 
-本文主要介绍如何快速运行腾讯云 WebRTC API Examples。
+This article mainly introduces how to quickly run Tencent Cloud WebRTC API Examples.
 
-## 目录结构
+## Directory Structure
+
 ```
 ├── README.md
 ├── jsconfig.json
 ├── next.config.js
 ├── package.json
 ├── public
-│   ├── favicon.ico
+│ ├── favicon.ico
 └── src
-    ├── api   -- 获取数据
-    ├── app   -- 配置实时音视频应用信息
-    ├── components -- WebRTC API Examples 公共组件
-    ├── config -- 配置数据
-    ├── i18n   -- 国际化
-    ├── pages  -- WebRTC API 使用示例
-    ├── styles -- 样式
-    └── utils  -- 通用函数
+    ├── api --get data
+    ├── app --Configure real-time audio and video application information
+    ├── components --WebRTC API Examples public components
+    ├── config --configuration data
+    ├── i18n --Internationalization
+    ├── pages --WebRTC API usage examples
+    ├── styles --styles
+    └── utils --general functions
 ```
 
-## 前提条件
-您已 [注册腾讯云](https://cloud.tencent.com/document/product/378/17985) 账号，并完成 [实名认证](https://cloud.tencent.com/document/product/378/3629)。
+## Prerequisites
 
-## 操作步骤
-### 步骤1：创建新的应用
-1. 登录实时音视频控制台，选择【开发辅助】>【[快速跑通Demo](https://console.cloud.tencent.com/trtc/quickstart)】。
-2. 单击【立即开始】，输入应用名称，例如`TestTRTC`，单击【创建应用】。
+You have [registered a Tencent Cloud](https://cloud.tencent.com/document/product/378/17985) account and completed [real-name authentication](https://cloud.tencent.com/document/product/378 /3629).
 
-### 步骤2：配置 API Examples 工程文件
-1. 找到并打开`src/app/config.js`文件。
-2. 设置`config.js`文件中的相关参数：
-  <ul><li>SDKAPPID：默认为0，请设置为实际的 SDKAppID。</li>
-  <li>SECRETKEY：默认为空字符串，请设置为实际的密钥信息。</li></ul> 
-	<img src="https://main.qcloudimg.com/raw/1732ea2401af6111b41259a78b5330a4.png">
-3. 返回实时音视频控制台，单击【粘贴完成，下一步】。
-4. 单击【关闭指引，进入控制台管理应用】。
+## Steps
 
-> ⚠️注意：  
-> 本文提到的生成 UserSig 的方案是在客户端代码中配置 SECRETKEY，该方法中 SECRETKEY 很容易被反编译逆向破解，一旦您的密钥泄露，攻击者就可以盗用您的腾讯云流量，因此**该方法仅适合本地跑通 Demo 和功能调试**。  
->   
-> 正确的 UserSig 签发方式是将 UserSig 的计算代码集成到您的服务端，并提供面向 App 的接口，在需要 UserSig 时由您的 App 向业务服务器发起请求获取动态 UserSig。更多详情请参见 [服务端生成 UserSig](https://cloud.tencent.com/document/product/647/17275#Server)。
+### Step 1: Create a new application
 
-### 步骤3：运行 API Examples
+1. Log in to the real-time audio and video console, select [Development Assistance] > [Quick Run Demo] (https://console.cloud.tencent.com/trtc/quickstart)].
+2. Click [Start Now], enter the application name, such as `TestTRTC`, and click [Create Application].
 
-> ⚠️注意：  
-> 1. 建议 node 环境为 v14.16.0  
-> 2. 请使用 yarn 安装依赖，运行项目  
+### Step 2: Configure API Examples project files
 
-#### 1. 安装依赖
+1. Find and open the `src/app/config.js` file.
+2. Set relevant parameters in the `config.js` file:
+  <ul><li>SDKAPPID: The default is 0, please set it to the actual SDKAppID. </li>
+  <li>SECRETKEY: The default is an empty string, please set it to the actual key information. </li></ul>
+<img src="https://main.qcloudimg.com/raw/1732ea2401af6111b41259a78b5330a4.png">
+3. Return to the real-time audio and video console and click [Paste Complete, Next].
+4. Click [Close the guide and enter the console management application].
+
+> ⚠️Note:
+> The solution for generating UserSig mentioned in this article is to configure SECRETKEY in the client code. In this method, SECRETKEY can be easily decompiled and reversely cracked. Once your key is leaked, the attacker can steal your Tencent Cloud traffic, so**This method is only suitable for local run-through Demo and functional debugging**.
+>
+> The correct way to issue UserSig is to integrate the UserSig calculation code into your server and provide an App-oriented interface. When UserSig is needed, your App initiates a request to the business server to obtain the dynamic UserSig. For more details, please see [Server-side generation of UserSig](https://cloud.tencent.com/document/product/647/17275#Server).
+
+### Step 3: Run API Examples
+
+> ⚠️Note:
+>
+> 1. It is recommended that the node environment is v14.16.0
+> 2. Please use yarn to install dependencies and run the project
+
+#### 1. Install dependencies
+
 ```bash
-yarn 
+yarn
 ```
 
-#### 2. 开发环境运行
+#### 2. Development environment operation
+
 ```bash
 yarn run dev
 ```
-使用 Chrome 浏览器打开 `http://localhost:3000/basic-rtc` 查看开发页面
 
-#### 3. 生产环境打包
+Use Chrome browser to open `http://localhost:3000/basic-rtc` to view the development page
+
+#### 3. Production environment packaging
+
 ```bash
 yarn run build
 ```
-您可以在 `/.next` 文件夹下看到打包结果并根据需要将打包结果部署在服务器上
 
-#### 4. 生产环境运行
+You can see the packaging results under the `/.next` folder and deploy the packaging results on the server as needed
+
+#### 4. Production environment operation
+
 ```bash
 yarn run build
 yarn run start
 ```
-您可以使用 Chrome 浏览器打开 `http://localhost:3000/basic-rtc` 查看部署在本地服务器上的页面
 
-#### 5. 生产环境打包并导出静态文件
+You can use Chrome browser to open `http://localhost:3000/basic-rtc` to view the page deployed on the local server
+
+#### 5. Package and export static files in the production environment
+
 ```bash
 yarn run export
 ```
-您可以在 `/out` 文件夹下看到导出的静态文件，静态文件可以直接上传到 CDN
 
-Demo 运行界面如图所示：
+You can see the exported static files under the `/out` folder, and the static files can be directly uploaded to CDN
+
+The Demo running interface is shown in the figure:
 ![](https://web.sdk.qcloud.com/trtc/webrtc/assets/API-examples-page.png)
-
-WebRTC 需要使用摄像头和麦克风采集音视频，在体验过程中您可能会收到来自 Chrome 浏览器的相关提示，单击【允许】。
+WebRTC requires the use of a camera and microphone to collect audio and video. During the experience, you may receive relevant prompts from the Chrome browser. Click [Allow].
 ![](https://web.sdk.qcloud.com/trtc/webrtc/assets/API-examples-device-request.png)
 
-## 支持的平台
+## Supported platforms
 
-WebRTC 技术由 Google 最先提出，目前主要在桌面版 Chrome 浏览器、桌面版 Safari 浏览器以及移动版的 Safari 浏览器上有较为完整的支持，其他平台（例如 Android 平台的浏览器）支持情况均比较差。
-- 在移动端推荐使用 [小程序](https://cloud.tencent.com/document/product/647/32399) 解决方案，微信和手机 QQ 小程序均已支持，都是由各平台的 Native 技术实现，音视频性能更好，且针对主流手机品牌进行了定向适配。
-- 如果您的应用场景主要为教育场景，那么教师端推荐使用稳定性更好的 [Electron](https://cloud.tencent.com/document/product/647/38549) 解决方案，支持大小双路画面，更灵活的屏幕分享方案以及更强大而弱网络恢复能力。
+WebRTC technology was first proposed by Google. Currently, it has relatively complete support on the desktop version of Chrome browser, desktop version of Safari browser and mobile version of Safari browser. The support status of other platforms (such as Android platform browsers) is relatively low. Difference.
+-It is recommended to use [mini program](https://cloud.tencent.com/document/product/647/32399) solution on the mobile side. WeChat and mobile QQ mini programs are both supported and are powered by the Native technology of each platform. Realization, audio and video performance is better, and targeted adaptation for mainstream mobile phone brands.
+-If your application scenario is mainly an educational scenario, then the teacher side recommends using the more stable [Electron](https://cloud.tencent.com/document/product/647/38549) solution, which supports both large and small channels. screen, a more flexible screen sharing solution and stronger but weak network resilience.
 
 <table>
 <tr>
-<th>操作系统</th>
-<th width="22%">浏览器类型</th><th>浏览器最低<br>版本要求</th><th width="16%">接收（播放）</th><th width="16%">发送（上麦）</th><th>屏幕分享</th><th>SDK 版本要求</th>
+<th>Operating System</th>
+<th width="22%">Browser type</th><th>Browser minimum <br>version requirements</th><th width="16%">Receive (play)</th><th width="16%">Send (on the mic)</th><th>Screen sharing</th><th>SDK version requirements</th>
 </tr><tr>
 <td>Mac OS</td>
-<td>桌面版 Safari 浏览器</td>
+<td>Desktop Safari browser</td>
 <td>11+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Safari13+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Safari13+ version)</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Mac OS</td>
-<td>桌面版 Chrome 浏览器</td>
+<td>Desktop Chrome browser</td>
 <td>56+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Chrome72+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Chrome72+ version)</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Mac OS</td>
-<td>桌面版 Firefox 浏览器</td>
+<td>Desktop version of Firefox browser</td>
 <td>56+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Firefox66+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Firefox66+ version)</td>
 <td>v4.7.0+</td>
 </tr>
 <tr>
 <td>Mac OS</td>
-<td>桌面版 Edge 浏览器</td>
+<td>Desktop version of Edge browser</td>
 <td>80+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持</td>
+<td>Support</td>
+<td>Support</td>
+<td>Support</td>
 <td>v4.7.0+</td>
 </tr>
 <tr>
 <td>Windows</td>
-<td>桌面版 Chrome 浏览器</td>
+<td>Desktop Chrome browser</td>
 <td>56+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Chrome72+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Chrome72+ version)</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Windows</td>
-<td>桌面版 QQ 浏览器（极速内核）</td>
+<td>Desktop version of QQ browser (extremely fast kernel)</td>
 <td>10.4+</td>
-<td>支持</td>
-<td>支持</td>
-<td>不支持</td>
+<td>Support</td>
+<td>Support</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Windows</td>
-<td>桌面版 Firefox 浏览器</td>
+<td>Desktop version of Firefox browser</td>
 <td>56+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持（需要 Firefox66+ 版本）</td>
+<td>Support</td>
+<td>Support</td>
+<td>Supported (requires Firefox66+ version)</td>
 <td>v4.7.0+</td>
 </tr>
 <tr>
 <td>Windows</td>
-<td>桌面版 Edge 浏览器</td>
+<td>Desktop version of Edge browser</td>
 <td>80+</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持</td>
+<td>Support</td>
+<td>Support</td>
+<td>Support</td>
 <td>v4.7.0+</td>
 </tr>
 <tr>
 <td>iOS 11.1.2+</td>
-<td>移动版 Safari 浏览器</td>
+<td>Mobile Safari</td>
 <td>11+</td>
-<td>支持</td>
-<td>支持</td>
-<td>不支持</td>
+<td>Support</td>
+<td>Support</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 <tr>
 <td>iOS 12.1.4+</td>
-<td>微信内嵌网页</td>
+<td>WeChat embedded web page</td>
 <td>-</td>
-<td>支持</td>
-<td>不支持</td>
-<td>不支持</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Android</td>
-<td>移动版 QQ 浏览器</td>
-<td>-</td>
-<td>不支持</td>
-<td>不支持</td>
-<td>不支持</td>
+<td>Support</td>
+<td>Not supported</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Android</td>
-<td>移动版 UC 浏览器</td>
+<td>Mobile QQ Browser</td>
 <td>-</td>
-<td>不支持</td>
-<td>不支持</td>
-<td>不支持</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Android</td>
-<td>微信内嵌网页（TBS 内核）</td>
-<td>-</td>
-<td>支持</td>
-<td>支持</td>
-<td>不支持</td>
+<td>Not supported</td>
+<td>Not supported</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 <tr>
 <td>Android</td>
-<td>微信内嵌网页（XWEB 内核）</td>
+<td>Mobile UC Browser</td>
 <td>-</td>
-<td>支持</td>
-<td>支持</td>
-<td>不支持</td>
+<td>Not supported</td>
+<td>Not supported</td>
+<td>Not supported</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>WeChat embedded web page (TBS core)</td>
+<td>-</td>
+<td>Support</td>
+<td>Support</td>
+<td>Not supported</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>WeChat embedded web page (XWEB core)</td>
+<td>-</td>
+<td>Support</td>
+<td>Support</td>
+<td>Not supported</td>
 <td>-</td>
 </tr>
 </table>
 
->! 
->- 您可以在浏览器中打开 [WebRTC 能力测试](https://www.qcloudtrtc.com/webrtc-samples/abilitytest/index.html) 页面进行检测是否完整支持 WebRTC。例如公众号等浏览器环境。
->- 由于 H.264 版权限制，华为系统的 Chrome 浏览器和以 Chrome WebView 为内核的浏览器均不支持 TRTC 的 Web 版 SDK 的正常运行。
+> !
+> -You can open the [WebRTC Ability Test](https://www.qcloudtrtc.com/webrtc-samples/abilitytest/index.html) page in your browser to check whether WebRTC is fully supported. For example, browser environments such as official accounts.
+> -Due to H.264 copyright restrictions, Huawei's Chrome browser and Chrome WebView-based browsers do not support the normal operation of TRTC's Web version SDK.
 
 <span id="requirements"></span>
-## 环境要求
-- 请使用最新版本的 Chrome 浏览器。
-- TRTC Web SDK 依赖以下端口进行数据传输，请将其加入防火墙白名单，配置完成后，您可以通过访问并体验 [官网 Demo](https://trtc-1252463788.file.myqcloud.com/web/demo/official-demo/index.html) 检查配置是否生效。
- - TCP 端口：8687
- - UDP 端口：8000；8080；8800；843；443；16285
- - 域名：qcloud.rtc.qq.com
 
-## 常见问题
+## Environmental requirements
 
-### 1. 查看密钥时只能获取公钥和私钥信息，要如何获取密钥？
-TRTC SDK 6.6 版本（2019年08月）开始启用新的签名算法 HMAC-SHA256。在此之前已创建的应用，需要先升级签名算法才能获取新的加密密钥。如不升级，您也可以继续使用 [老版本算法 ECDSA-SHA256](https://cloud.tencent.com/document/product/647/17275#.E8.80.81.E7.89.88.E6.9C.AC.E7.AE.97.E6.B3.95)。
+-Please use the latest version of Chrome browser.
+-TRTC Web SDK relies on the following ports for data transmission. Please add them to the firewall whitelist. After the configuration is completed, you can visit and experience [official website Demo](https://trtc-1252463788.file.myqcloud.com/web/demo/official-demo/index.html) Check whether the configuration takes effect.
+-TCP port: 8687
+-UDP ports: 8000; 8080; 8800; 843; 443; 16285
+-Domain name: qcloud.rtc.qq.com
 
-升级操作：
-1. 登录 [实时音视频控制台](https://console.cloud.tencent.com/trtc)。
-2. 在左侧导航栏选择【应用管理】，单击目标应用所在行的【应用信息】。
-3. 选择【快速上手】页签，单击【第二步 获取签发UserSig的密钥】区域的【点此升级】。
+## common problem
 
-### 2. 出现客户端错误：“RtcError: no valid ice candidate found”该如何处理？
-出现该错误说明 TRTC Web SDK 在 STUN 打洞失败，请根据 [环境要求](#requirements) 检查防火墙配置。
+### 1. When viewing the key, only the public key and private key information can be obtained. How to obtain the key?
 
-### 3. 出现客户端错误："RtcError: ICE/DTLS Transport connection failed" 或 “RtcError: DTLS Transport connection timeout”该如何处理？
-出现该错误说明 TRTC Web SDK 在建立媒体传输通道时失败，请根据 [环境要求](#requirements) 检查防火墙配置。
+TRTC SDK version 6.6 (August 2019) starts to enable the new signature algorithm HMAC-SHA256. Applications that have been created before this need to upgrade the signature algorithm before obtaining a new encryption key. If you do not upgrade, you can continue to use [old version algorithm ECDSA-SHA256](https://cloud.tencent.com/document/product/647/17275#.E8.80.81.E7.89.88.E6.9C.AC .E7.AE.97.E6.B3.95).
 
-### 4. 出现10006 error 该如何处理？
-如果出现"Join room failed result: 10006 error: service is suspended,if charge is overdue,renew it"，请确认您的实时音视频应用的服务状态是否为可用状态。
-登录 [实时音视频控制台](https://console.cloud.tencent.com/rav)，单击您创建的应用，单击【帐号信息】，在帐号信息面板即可确认服务状态。
+Upgrade operation:
+
+1. Log in to [Real-time Audio and Video Console](https://console.cloud.tencent.com/trtc).
+2. Select [Application Management] in the left navigation bar and click [Application Information] in the row of the target application.
+3. Select the [Quick Start] tab and click [Click here to upgrade] in the [Step 2 Obtain the key to issue UserSig] area.
+
+### 2. How to deal with the client error: "RtcError: no valid ice candidate found"?
+
+This error indicates that TRTC Web SDK failed to drill holes in STUN. Please check the firewall configuration according to [Environmental Requirements](#requirements).
+
+### 3. How to deal with the client error: "RtcError: ICE/DTLS Transport connection failed" or "RtcError: DTLS Transport connection timeout"?
+
+This error indicates that TRTC Web SDK failed to establish the media transmission channel. Please check the firewall configuration according to [Environmental Requirements](#requirements).
+
+### 4. How to deal with the 10006 error?
+
+If "Join room failed result: 10006 error: service is suspended,if charge is overdue,renew it" appears, please confirm whether the service status of your real-time audio and video application is available.
+Log in to [Real-time Audio and Video Console](https://console.cloud.tencent.com/rav), click on the application you created, click [Account Information], and you can confirm the service status in the account information panel.
 ![](https://main.qcloudimg.com/raw/13c9b520ea333804cffb4e2c4273fced.png)

@@ -21,10 +21,10 @@
 </head>
 
 <body>
-  <!-- 预览的容器  -->
+  <!-- Preview container  -->
   <div id="id_local_video"
     style="width:640px;height:360px;display:flex;align-items:center;justify-content:center; position: relative;">
-    <!-- AR 美颜特效交互 -->
+    <!-- AR beauty effects interaction -->
     <style>
       #ar_operation {
         display: block;
@@ -144,13 +144,13 @@
         <nav>
           <div class="nav nav-tabs" id="ar_tab" role="tablist">
             <a class="nav-item nav-link active" id="beauty-tab" data-toggle="tab" href="#beauty" role="tab"
-              aria-controls="beauty" aria-selected="true">美颜</a>
+              aria-controls="beauty" aria-selected="true">Beauty</a>
             <a class="nav-item nav-link" id="makeup-tab" data-toggle="tab" href="#makeup" role="tab"
-              aria-controls="profile" aria-selected="false">美妆</a>
+              aria-controls="profile" aria-selected="false">makeups</a>
             <a class="nav-item nav-link" id="filter-tab" data-toggle="tab" href="#filter" role="tab"
-              aria-controls="contact" aria-selected="false">滤镜</a>
+              aria-controls="contact" aria-selected="false">filter</a>
             <a class="nav-item nav-link" id="filter-tab" data-toggle="tab" href="#sticker" role="tab"
-              aria-controls="contact" aria-selected="false">贴纸</a>
+              aria-controls="contact" aria-selected="false">sticker</a>
           </div>
         </nav>
       </div>
@@ -159,80 +159,80 @@
           <div class="tab-pane fade show active" id="beauty" role="tabpanel" aria-labelledby="beauty-tab">
             <form class="form-group beauty_slider__group">
               <div class="mb-2">
-                <input id="whiten" data-name="美白" class="multi-range mb-1" type="range" />
+                <input id="whiten" data-name="Whitening" class="multi-range mb-1" type="range" />
               </div>
               <div class="mb-2">
-                <input id="dermabrasion" data-name="磨皮" class="multi-range mb-1" type="range" />
+                <input id="dermabrasion" data-name="Microdermabrasion" class="multi-range mb-1" type="range" />
               </div>
               <div class="mb-2">
-                <input id="lift" data-name="瘦脸" class="multi-range mb-1" type="range" />
+                <input id="lift" data-name="face slimming" class="multi-range mb-1" type="range" />
               </div>
 
               <div class="mb-2">
-                <input id="shave" data-name="削脸" class="multi-range mb-1" type="range" />
+                <input id="shave" data-name="Cut off the face" class="multi-range mb-1" type="range" />
               </div>
               <div class="mb-2">
-                <input id="eye" data-name="大眼" class="multi-range mb-1" type="range" />
+                <input id="eye" data-name="big eyes" class="multi-range mb-1" type="range" />
               </div>
               <div class="mb-2">
-                <input id="chin" data-name="下巴" class="multi-range mb-1" type="range" />
+                <input id="chin" data-name="jaw" class="multi-range mb-1" type="range" />
               </div>
             </form>
             <div class="row ar_close">
-              <button type="button" class="btn btn-sm btn-light">关闭美颜</button>
+              <button type="button" class="btn btn-sm btn-light">Turn off beauty</button>
             </div>
           </div>
           <div class="tab-pane fade" id="makeup" role="tabpanel" aria-labelledby="makeup-tab">
             <div class="row list">
             </div>
             <div class="row ar_close">
-              <button type="button" class="btn btn-sm btn-light">关闭美妆</button>
+              <button type="button" class="btn btn-sm btn-light">Close beauty</button>
             </div>
           </div>
           <div class="tab-pane fade" id="filter" role="tabpanel" aria-labelledby="filter-tab">
             <div class="row list">
             </div>
             <div class="row ar_close">
-              <button type="button" class="btn btn-sm btn-light">关闭滤镜</button>
+              <button type="button" class="btn btn-sm btn-light">Turn off filter</button>
             </div>
           </div>
           <div class="tab-pane fade" id="sticker" role="tabpanel" aria-labelledby="sticker-tab">
             <div class="row list">
             </div>
             <div class="row ar_close">
-              <button type="button" class="btn btn-sm btn-light">关闭贴纸</button>
+              <button type="button" class="btn btn-sm btn-light">Close sticker</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="effect-btn" title="美颜特效" class="web-ar-control" style="width: 64px; height: 64px;">
+    <div id="effect-btn" title="Beauty effects" class="web-ar-control" style="width: 64px; height: 64px;">
 
     </div>
   </div>
   <div id="controls" style="width:640px;height:360px;object-fit:contain;display:none">
-    <button id="startCamera" type="button" class="btn btn-sm btn-success">开启摄像头</button>
-    <button id="startPush" type="button" class="btn btn-sm btn-primary">开始推流</button>
-    <button id="stopPush" type="button" class="btn btn-sm btn-danger">停止推流</button>
+    <button id="startCamera" type="button" class="btn btn-sm btn-success">Turn on camera</button>
+    <button id="startPush" type="button" class="btn btn-sm btn-primary">Start streaming</button>
+    <button id="stopPush" type="button" class="btn btn-sm btn-danger">Stop pushing</button>
   </div>
 
   <script charset="utf-8" src="https://video.sdk.qcloudecdn.com/web/TXLivePusher-2.0.0.min.js"></script>
   <script>
     // 初始美颜配置
     const initBeautify = {
-      whiten: 1, // 美白 0-1
-      dermabrasion: 1, // 磨皮 0-1
-      lift: 0, // 瘦脸 0-1
-      shave: 0, // 削脸 0-1
-      eye: 0.2, // 大眼 0-1
-      chin: 0, // 下巴 0-1
+      whiten: 1, // Whitening 0-1
+      dermabrasion: 1, // Microdermabrasion 0-1
+      lift: 0, // face slimming 0-1
+      shave: 0, // Cut off the face 0-1
+      eye: 0.2, // big eyes 0-1
+      chin: 0, // jaw 0-1
     };
-    // 美颜特效操作面板交互
+    // Beauty special effects operation panel interaction
     function initOperationPanel() {
       $('#effect-btn').click(() => {
         $('#ar_operation.card').toggleClass('visible');
       });
-      // 点击别处关闭面板
+      // Click elsewhere to close the panel
       $(document).on('click', (e) => {
         const closet = $(e.target).closest($('#ar_operation.card')).length;
         const isEffectbtn = $(e.target).closest($('#effect-btn')).length;
@@ -241,7 +241,7 @@
         }
       });
     }
-    // 美颜参数设置交互
+    // Beauty parameter setting interaction
     function initBeautyAction(cb) {
       $('#beauty input[type=range]').each((i, item) => {
         const key = $(item).attr('id');
@@ -258,20 +258,20 @@
         });
         $(`<label for="${key}">${$(item).data('name')}</label>`).insertBefore($(item));
       });
-      // 关闭美颜
+      // Turn off beauty
       $('#beauty .ar_close').click(() => {
         $('#beauty input[type=range]').val(0);
         cb({
-          whiten: 0, // 美白 0-1
-          dermabrasion: 0, // 磨皮 0-1
-          lift: 0, // 瘦脸 0-1
-          shave: 0, // 削脸 0-1
-          eye: 0, // 大眼 0-1
-          chin: 0, // 下巴 0-1
+          whiten: 0, // Whitening 0-1
+          dermabrasion: 0, // Microdermabrasion 0-1
+          lift: 0, // face slimming 0-1
+          shave: 0, // Cut off the face 0-1
+          eye: 0, // big eyes 0-1
+          chin: 0, // jaw 0-1
         });
       });
     }
-    // 美妆特效设置交互
+    // Beauty special effects setting interaction
     function initEffectAction(effects, type, cb) {
       const container = $(`#${type}>.list`);
       effects.forEach((item, i) => {
@@ -286,7 +286,7 @@
         }
       });
 
-      // 事件处理
+      // event handling
       container.off('click').on('click', 'img', (e) => {
         let id = $(e.target).attr('data-id');
         container.find('a').removeClass('selected')
@@ -325,47 +325,47 @@
       const container = $(`#${type}>.list`);
       container.find('a').removeClass('selected');
     }
-    // 初始化 ar sdk 方法
+    // Initialize ar sdk method
     async function initARSDK(stream) {
       return new Promise((resolve, reject) => {
         const {
           ArSdk
         } = window.AR;
-        /** ----- 鉴权配置 ----- */
+        /** ----- Authentication configuration ----- */
 
         /**
-         * 腾讯云账号 APPID
+         * Tencent Cloud account APPID
          * 
-         * 进入[腾讯云账号中心](https://console.cloud.tencent.com/developer) 即可查看 APPID
+         * Enter [Tencent Cloud Account Center](https://console.cloud.tencent.com/developer) 即可查看 APPID
          */
-        const APPID = ''; // 此处请填写您自己的参数
+        const APPID = ''; // Please fill in your own parameters here
 
         /**
          * Web LicenseKey
          * 
-         * 登录音视频终端 SDK 控制台的[Web License 管理](https://console.cloud.tencent.com/vcube/web)，创建项目即可获得 LicenseKey
+         * Log in to [Web License Management] of the recording and video terminal SDK console(https://console.cloud.tencent.com/vcube/web)，创建项目即可获得 LicenseKey
          */
-        const LICENSE_KEY = ''; // 此处请填写您自己的参数
+        const LICENSE_KEY = ''; // Please fill in your own parameters here
 
         /**
-         * 计算签名用的密钥 Token
+         * Token, the key used to calculate the signature
          * 
-         * 注意：此处仅用于 DEMO 调试，正式环境中请将 Token 保管在服务端，签名方法迁移到服务端实现，通过接口提供，前端调用拉取签名，参考
-         * [签名方法](https://https://cloud.tencent.com/document/product/616/71370#.E7.AD.BE.E5.90.8D.E6.96.B9.E6.B3.95)
+         * Note: This is only used for DEMO debugging. In the formal environment, please keep the Token on the server side. The signature method is migrated to the server side for implementation and is provided through the interface. The front-end call is used to pull the signature. Refer to
+         *[Signature method](https://https://cloud.tencent.com/document/product/616/71370#.E7.AD.BE.E5.90.8D.E6.96.B9.E6.B3. 95)
          */
-        const token = ''; // 此处请填写您自己的参数
+        const token = ''; // Please fill in your own parameters here
 
         /** ----------------------- */
 
 
         /**
-         * 定义获取签名方法
+         *Define the signature acquisition method
          *
-         * 注意：签名方法推荐在服务端实现，通过接口提供，前端调用拉取签名，此处为了帮助您快速跑通所以在前端计算签名
-         * 如：
-         * async function () {
-         *  return fetch('http://xxx.com/get-ar-sign').then(res => res.json());
-         * };
+         *Note: It is recommended that the signature method be implemented on the server side, provided through the interface, and the front-end calls to pull the signature. In order to help you run through it quickly, the signature is calculated on the front-end.
+         *like:
+         *async function () {
+         *return fetch('http://xxx.com/get-ar-sign').then(res => res.json());
+         *};
          */
         const getSignature = function () {
           const timestamp = Math.round(new Date().getTime() / 1000);
@@ -378,33 +378,33 @@
 
         const beautify = Object.assign({}, initBeautify);
 
-        // ar sdk 基础配置参数
+        // ar sdk basic configuration parameters
         const config = {
-          // input: stream, // 预加载模式，初始化SDK无需指定input属性
+          // input: stream, // Preloading mode, initializing the SDK without specifying the input attribute
           auth: {
             licenseKey: LICENSE_KEY,
             appId: APPID,
             authFunc: getSignature
           },
-          // 初始美颜效果（可选参数）
+          // Initial beauty effect (optional parameter)
           beautify: initBeautify
         }
-        // config 传入ar sdk
+        //config passes in ar sdk
         const ar = new ArSdk(config);
         let currentMakeup
         ar.on('created', () => {
 
-          // 显示美颜特效操作面板
+          // Display the beauty effects operation panel
           initOperationPanel();
-          // 美颜交互
+          // Beauty interaction
           initBeautyAction((data) => {
             ar.setBeautify(Object.assign(beautify, data));
           });
 
-          // 获取内置美妆，支持分页
+          // Get built-in beauty and support paging
           ar.getEffectList({
             Type: 'Preset',
-            Label: '美妆',
+            Label: 'Makeup',
           }).then((res) => {
             const list = res.map(item => ({
               name: item.Name,
@@ -415,17 +415,17 @@
               type: item.PresetType,
             }));
 
-            // 美妆交互
+            // makeup interaction
             initEffectAction(list, 'makeup', (id) => {
               if (id) {
-                // 设置美妆特效 传入素材id和强度，回调
+                // Set the beauty special effects. Pass in the material id and intensity and call back.
                 currentMakeup = {
                   id: id,
                   intensity: 1
                 }
                 ar.setEffect([currentMakeup], () => {
                   $('.ar_loading').remove();
-                  // 内置美妆自带滤镜，设置了美妆则取消滤镜的选择，使美妆内置的滤镜生效
+                  // The built-in beauty makeup has its own filters. If the beauty makeup is set, the filter selection will be canceled and the built-in beauty makeup filter will take effect.
                   cancelSelect('filter')
                   ar.setFilter();
                 });
@@ -439,7 +439,7 @@
             console.log(e);
           });
 
-          // 内置滤镜
+          // Built-in filters
           ar.getCommonFilter().then((res) => {
             const list = res.map(item => ({
               name: item.Name,
@@ -450,17 +450,17 @@
               type: item.PresetType,
             }));
 
-            // 滤镜交互
+            // Filter interaction
             initEffectAction(list, 'filter', (id) => {
               if (id) {
-                // 设置滤镜 传入滤镜 id， 强度，回调
+                // Set the filter and pass in the filter id, intensity, and callback
                 ar.setFilter(id, 1, () => {
                   $('.ar_loading').remove();
                 });
                 if (currentMakeup) {
                   ar.setEffect([{
                     ...currentMakeup,
-                    filterIntensity: 0 // 覆盖美妆的内置滤镜
+                    filterIntensity: 0 // Built-in filters for beauty coverage
                   }]);
                 }
               } else {
@@ -468,7 +468,7 @@
                 if (currentMakeup) {
                   ar.setEffect([{
                     ...currentMakeup,
-                    filterIntensity: 1 // 恢复美妆的内置滤镜
+                    filterIntensity: 1 // Restore beauty’s built-in filters
                   }]);
                 }
               }
@@ -477,10 +477,10 @@
             console.log(e);
           });
 
-          // 获取内置贴纸，支持分页
+          // Get built-in stickers and support paging
           ar.getEffectList({
             Type: 'Preset',
-            Label: '贴纸',
+            Label: 'Sticker',
           }).then((res) => {
             const list = res.map(item => ({
               name: item.Name,
@@ -491,10 +491,10 @@
               type: item.PresetType,
             }));
 
-            // 美妆交互
+            // Beauty interaction
             initEffectAction(list, 'sticker', (id) => {
               if (id) {
-                // 设置美妆特效 传入素材id和强度，回调
+                // Set the beauty special effects. Pass in the material id and intensity and call back.
                 ar.setEffect([{
                   id: id,
                   intensity: 1
@@ -512,30 +512,30 @@
 
         });
         ar.on('resourceReady', (e) => {
-          // 返回 ar sdk 实例
+          // Return ar sdk instance
           resolve(ar);
         });
         ar.on('ready',async () => {
-          // 获取 ar sdk 输出流数据
+          // Get ar sdk output stream data
           const arStream = await ar.getOutput();
-          /** ----- 推流部分 请填写您自己的参数 ----- */
-          // 设置推流
+          /** ----- In the push section, please fill in your own parameters. ----- */
+          // Set up push streaming
           const livePusher = new TXLivePusher()
-          // 设置直播推流基础参数 begin
+          // Set basic parameters for live streaming begin
           let DOMAIN = '86414.livepush.myqcloud.com'
           let AppName = 'live'
           let StreamName = 'live'
           let txSecret = '22c8307ed9c85fa3103a500c0f95fd2b'
           let txTime = '62430750'
-          // 设置直播推流基础参数 end
-          /** ----- 推流部分 请填写您自己的参数 ----- */
+          // Set basic parameters for live streaming end
+          /** ----- In the push section, please fill in your own parameters. ----- */
 
           let pushUrl = `webrtc://${DOMAIN}/${AppName}/${StreamName}?txSecret=${txSecret}&txTime=${txTime}`
 
-          // 可选：设置预览界面元素
+          // Optional: Set preview interface elements
           livePusher.setRenderView('id_local_video');
 
-          // 捕获流内容
+          // Capture stream content
           livePusher.startCustomCapture(arStream);
         })
         ar.on('error', (e) => {
@@ -544,18 +544,18 @@
       });
 
     }
-    // 主函数
+    // main function
     async function main() {
-      // 预初始化 ar sdk
+      // Pre-initialize ar sdk
       const ar = await initARSDK();
 
       $('#controls').css('display', 'block');
-      // 开启摄像头
+      // Turn on camera
       $('#startCamera').click(async () => {
         let w = 1280;
         let h = 720;
 
-        // 获取设备输入流
+        // Get device input stream
         const arInputStream = await navigator.mediaDevices.getUserMedia({
           audio: true,
           video: {
@@ -563,17 +563,17 @@
             height: h
           }
         });
-        // 设置 ar sdk 输入流数据
+        // Set ar sdk input stream data
         ar.initCore({
           input: arInputStream
         })
       })
-      // 开始推流按钮
+      // Start streaming button
       $('#startPush').click(() => {
         console.log('start push...')
         livePusher.startPush(pushUrl)
       });
-      // 停止推流按钮
+      // Stop streaming button
       $('#stopPush').click(() => {
         console.log('stop push...')
         livePusher.stopPush()

@@ -1,11 +1,16 @@
 <template>
   <div class="home-page-container">
-    <div
-      class="home-page-header"
-    >Welcome {{loginUserInfo && (loginUserInfo.name || loginUserInfo.userId)}}</div>
+    <div class="home-page-header">
+      Welcome
+      {{ loginUserInfo && (loginUserInfo.name || loginUserInfo.userId) }}
+    </div>
     <div class="home-page-section-list">
-      <div class="home-page-section" @click="goto('/video-call')">视频通话</div>
-      <div class="home-page-section" @click="goto('/audio-call')">语音通话</div>
+      <div class="home-page-section" @click="goto('/video-call')">
+        Video call
+      </div>
+      <div class="home-page-section" @click="goto('/audio-call')">
+        Voice call
+      </div>
     </div>
   </div>
 </template>
@@ -16,18 +21,18 @@ import { mapState } from "vuex";
 export default {
   name: "HomePage",
   computed: mapState({
-    loginUserInfo: state => state.loginUserInfo
+    loginUserInfo: (state) => state.loginUserInfo,
   }),
   data() {
     return {
-      enableEditName: true
+      enableEditName: true,
     };
   },
   methods: {
-    goto: function(path) {
+    goto: function (path) {
       this.$router.push(path);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -4,11 +4,15 @@
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
-    <el-dialog :title="callTypeDisplayName" :visible.sync="isShowNewInvitationDialog" width="400px">
-      <span>{{this.getNewInvitationDialogContent()}}</span>
+    <el-dialog
+      :title="callTypeDisplayName"
+      :visible.sync="isShowNewInvitationDialog"
+      width="400px"
+    >
+      <span>{{ this.getNewInvitationDialogContent() }}</span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="handleRejectCall">拒绝</el-button>
-        <el-button type="primary" @click="handleAccept">接听</el-button>
+        <el-button @click="handleRejectCall">Reject</el-button>
+        <el-button type="primary" @click="handleAccept">Accept</el-button>
       </span>
     </el-dialog>
   </div>
@@ -24,30 +28,30 @@ let timeout;
 export default {
   name: "App",
   components: {
-    HeaderNav
+    HeaderNav,
   },
   watch: {
-    isLogin: function(newIsLogin, oldIsLogin) {
+    isLogin: function (newIsLogin, oldIsLogin) {
       if (newIsLogin !== oldIsLogin) {
         if (newIsLogin) {
           if (this.$router.history.current.path === "/login") {
-            // 防止已在 '/' 路由下再次 push
+            //Prevent pushing again under the '/' route
             this.$router.push("/");
           }
         } else {
           this.$router.push("/login");
         }
       }
-    }
+    },
   },
   computed: mapState({
-    isLogin: state => state.isLogin,
-    loginUserInfo: state => state.loginUserInfo,
-    callStatus: state => state.callStatus,
-    isAccepted: state => state.isAccepted,
-    meetingUserIdList: state => state.meetingUserIdList,
-    muteVideoUserIdList: state => state.muteVideoUserIdList,
-    muteAudioUserIdList: state => state.muteAudioUserIdList
+    isLogin: (state) => state.isLogin,
+    loginUserInfo: (state) => state.loginUserInfo,
+    callStatus: (state) => state.callStatus,
+    isAccepted: (state) => state.isAccepted,
+    meetingUserIdList: (state) => state.meetingUserIdList,
+    muteVideoUserIdList: (state) => state.muteVideoUserIdList,
+    muteAudioUserIdList: (state) => state.muteAudioUserIdList,
   }),
   async created() {
     this.initListener();
@@ -60,15 +64,15 @@ export default {
       inviterName: "",
       callTypeDisplayName: "",
       inviteData: {},
-      inviteID: ""
+      inviteID: "",
     };
   },
   destroyed() {
     this.removeListener();
   },
   methods: {
-    handleAutoLogin: async function() {},
-    initListener: function() {
+    handleAutoLogin: async function () {},
+    initListener: function () {
       this.$trtcCalling.on(this.TrtcCalling.EVENT.ERROR, this.handleError);
       this.$trtcCalling.on(
         this.TrtcCalling.EVENT.INVITED,
@@ -123,7 +127,7 @@ export default {
         this.handleUserAudioChange
       );
     },
-    removeListener: function() {
+    removeListener: function () {
       this.$trtcCalling.off(this.TrtcCalling.EVENT.ERROR, this.handleError);
       this.$trtcCalling.off(
         this.TrtcCalling.EVENT.INVITED,
@@ -178,20 +182,20 @@ export default {
         this.handleUserAudioChange
       );
     },
-    handleError: function() {},
-    handleNewInvitationReceived: async function(payload) {
+    handleError: function () {},
+    handleNewInvitationReceived: async function (payload) {
       const { inviteID, sponsor, inviteData } = payload;
       log(`handleNewInvitationReceived ${JSON.stringify(payload)}`);
       if (inviteData.callEnd) {
-        // 最后一个人发送 invite 进行挂断
+        //The last person sends invite to hang up
         this.$store.commit("updateCallStatus", "idle");
         return;
       }
       if (sponsor === this.loginUserInfo.userId) {
-        // 邀请人是自己, 同一个账号有可能在多端登录
+        //The inviter is yourself, and the same account may be logged in from multiple terminals.
         return;
       }
-      // 这里需要考虑忙线的情况
+      //Here you need to consider the busy situation
       if (this.callStatus === "calling" || this.callStatus === "connected") {
         await this.$trtcCalling.reject({ inviteID, isBusy: true });
         return;
@@ -207,20 +211,20 @@ export default {
       this.inviterName = userName;
       this.callTypeDisplayName =
         callType === this.TrtcCalling.CALL_TYPE.AUDIO_CALL
-          ? "语音通话"
-          : "视频通话";
+          ? "Voice calls"
+          : "video call";
       this.isShowNewInvitationDialog = true;
     },
-    getNewInvitationDialogContent: function() {
-      return `来自${this.inviterName}的${this.callTypeDisplayName}`;
+    getNewInvitationDialogContent: function () {
+      return `${this.callTypeDisplayName} from ${this.inviterName}`;
     },
-    handleRejectCall: async function() {
+    handleRejectCall: async function () {
       try {
         const { callType } = this.inviteData;
         await this.$trtcCalling.reject({
           inviteID: this.inviteID,
           isBusy: false,
-          callType
+          callType,
         });
         this.dissolveMeetingIfNeed();
       } catch (e) {
@@ -228,11 +232,11 @@ export default {
       }
     },
 
-    handleAccept: function() {
+    handleAccept: function () {
       this.handleDebounce(this.handleAcceptCall(), 500);
     },
 
-    handleDebounce: function(func, wait) {
+    handleDebounce: function (func, wait) {
       let context = this;
       let args = arguments;
       if (timeout) clearTimeout(timeout);
@@ -241,14 +245,14 @@ export default {
       }, wait);
     },
 
-    handleAcceptCall: async function() {
+    handleAcceptCall: async function () {
       try {
         const { callType, roomID } = this.inviteData;
         this.$store.commit("userJoinMeeting", this.loginUserInfo.userId);
         await this.$trtcCalling.accept({
           inviteID: this.inviteID,
           roomID,
-          callType
+          callType,
         });
         this.isShowNewInvitationDialog = false;
         if (
@@ -266,83 +270,83 @@ export default {
         this.dissolveMeetingIfNeed();
       }
     },
-    handleUserAccept: function({ userID }) {
+    handleUserAccept: function ({ userID }) {
       this.$store.commit("userAccepted", true);
       console.log(userID, "accepted");
     },
-    handleUserEnter: function({ userID }) {
-      // 建立连接
+    handleUserEnter: function ({ userID }) {
+      //establish connection
       this.$store.commit("userJoinMeeting", userID);
       if (this.callStatus === "calling") {
-        // 如果是邀请者, 则建立连接
+        //If it is the inviter, establish the connection
         this.$nextTick(() => {
-          // 需要先等远程用户 id 的节点渲染到 dom 上
+          //You need to wait for the node of the remote user id to be rendered on the dom
           this.$store.commit("updateCallStatus", "connected");
         });
       } else {
-        // 第n (n >= 3)个人被邀请入会, 并且他不是第 n 个人的邀请人
+        //The nth (n >= 3) person is invited to join the meeting, and he is not the inviter of the nth person
         this.$nextTick(() => {
-          // 需要先等远程用户 id 的节点渲染到 dom 上
+          //You need to wait for the node of the remote user id to be rendered on the dom
           this.$trtcCalling.startRemoteView({
             userID: userID,
-            videoViewDomID: `video-${userID}`
+            videoViewDomID: `video-${userID}`,
           });
         });
       }
     },
-    handleUserLeave: function({ userID }) {
+    handleUserLeave: function ({ userID }) {
       if (this.meetingUserIdList.length == 2) {
         this.$store.commit("updateCallStatus", "idle");
       }
       this.$store.commit("userLeaveMeeting", userID);
     },
-    handleInviteeReject: async function({ userID }) {
+    handleInviteeReject: async function ({ userID }) {
       const userName = await getUsernameByUserid(userID);
-      this.$message.warning(`${userName}拒绝通话`);
+      this.$message.warning(`${userName} refuses call`);
       this.dissolveMeetingIfNeed();
     },
-    handleInviteeLineBusy: async function({ userID }) {
+    handleInviteeLineBusy: async function ({ userID }) {
       const userName = await getUsernameByUserid(userID);
-      this.$message.warning(`${userName}忙线`);
+      this.$message.warning(`${userName} is busy`);
       this.dissolveMeetingIfNeed();
     },
-    handleInviterCancel: function() {
-      // 邀请被取消
+    handleInviterCancel: function () {
+      //Invitation is canceled
       this.isShowNewInvitationDialog = false;
-      this.$message.warning("通话已取消");
+      this.$message.warning("Call canceled");
       this.dissolveMeetingIfNeed();
     },
-    handleKickedOut: function() {
-      //重复登陆，被踢出房间
+    handleKickedOut: function () {
+      //Repeat login and be kicked out of the room
       this.$store.commit("userAccepted", false);
       this.$trtcCalling.logout();
       this.$store.commit("userLogoutSuccess");
     },
-    // 作为被邀请方会收到，收到该回调说明本次通话超时未应答
-    handleCallTimeout: function() {
+    //Will be received as the invited party. Receiving this callback means that the call has timed out and has not been answered.
+    handleCallTimeout: function () {
       this.isShowNewInvitationDialog = false;
-      this.$message.warning("通话超时未应答");
+      this.$message.warning("Call timed out and no response");
       this.dissolveMeetingIfNeed();
     },
-    handleCallEnd: function() {
-      this.$message.success("通话已结束");
+    handleCallEnd: function () {
+      this.$message.success("The call has ended");
       this.$trtcCalling.hangup();
       this.dissolveMeetingIfNeed();
       this.$router.push("/");
       this.$store.commit("userAccepted", false);
     },
-    handleNoResponse: async function({ userID }) {
+    handleNoResponse: async function ({ userID }) {
       const userName = await getUsernameByUserid(userID);
-      this.$message.warning(`${userName}无应答`);
+      this.$message.warning(`${userName} no response`);
       this.dissolveMeetingIfNeed();
     },
-    handleUserVideoChange: function({ userID, isVideoAvailable }) {
+    handleUserVideoChange: function ({ userID, isVideoAvailable }) {
       log(
         `handleUserVideoChange userID, ${userID} isVideoAvailable ${isVideoAvailable}`
       );
       if (isVideoAvailable) {
         const muteUserList = this.muteAudioUserIdList.filter(
-          currentID => currentID !== userID
+          (currentID) => currentID !== userID
         );
         this.$store.commit("updateMuteVideoUserIdList", muteUserList);
       } else {
@@ -350,13 +354,13 @@ export default {
         this.$store.commit("updateMuteVideoUserIdList", muteUserList);
       }
     },
-    handleUserAudioChange: function({ userID, isAudioAvailable }) {
+    handleUserAudioChange: function ({ userID, isAudioAvailable }) {
       log(
         `handleUserAudioChange userID, ${userID} isAudioAvailable ${isAudioAvailable}`
       );
       if (isAudioAvailable) {
         const muteUserList = this.muteAudioUserIdList.filter(
-          currentID => currentID !== userID
+          (currentID) => currentID !== userID
         );
         this.$store.commit("updateMuteAudioUserIdList", muteUserList);
       } else {
@@ -370,8 +374,8 @@ export default {
       if (this.meetingUserIdList.length < 2) {
         this.$store.commit("dissolveMeeting");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

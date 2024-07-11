@@ -1,220 +1,246 @@
-本文主要介绍如何快速跑通 Web 版本的 TRTCCalling Demo，Demo 中包括语音通话和视频通话场景：
+This article mainly introduces how to quickly run through the web version of TRTCCalling Demo. The Demo includes voice call and video call scenarios:
 
-\- 语音通话：纯语音交互，支持多人互动语音聊天。
+\-Voice call: pure voice interaction, supports multi-person interactive voice chat.
 
-\- 视频通话：视频通话，面向在线客服等需要面对面交流的沟通场景。
+\-Video call: Video call, for online customer service and other communication scenarios that require face-to-face communication.
 
-### 环境要求
-* 请使用最新版本的 Chrome 浏览器。
-* TRTCCalling 依赖以下端口进行数据传输，请将其加入防火墙白名单，配置完成后，您可以通过访问并体验 [官网 Demo](https://web.sdk.qcloud.com/component/trtccalling/demo/web/latest/index.html) 检查配置是否生效。
-  - TCP 端口：8687
-  - UDP 端口：8000，8080，8800，843，443，16285
-  - 域名：qcloud.rtc.qq.com
+### Environmental requirements
 
-> 
->- 一般情况下体验 Demo 需要部署至服务器，通过 https://域名/xxx 访问，或者直接在本地搭建服务器，通过 localhost:端口访问。
->- 目前桌面端 Chrome 浏览器支持 TRTC 桌面浏览器 SDK 的相关特性比较完整，因此建议使用 Chrome 浏览器进行体验。
+*Please use the latest version of Chrome browser.
+*TRTCCalling relies on the following ports for data transmission. Please add them to the firewall whitelist. After the configuration is completed, you can visit and experience [official website Demo](https://web.sdk.qcloud.com/component/trtccalling/demo/web/latest/index.html) Check whether the configuration takes effect.
+-TCP port: 8687
+-UDP ports: 8000, 8080, 8800, 843, 443, 16285
+-Domain name: qcloud.rtc.qq.com
 
-### 前提条件
+> -Generally, to experience the Demo, you need to deploy it to the server and access it through https://domain name/xxx, or build the server directly locally and access it through the localhost: port.
+> -At present, the desktop Chrome browser supports the TRTC desktop browser SDK and the related features are relatively complete, so it is recommended to use the Chrome browser for experience.
 
-您已 [注册腾讯云](https://cloud.tencent.com/document/product/378/17985) 账号，并完成 [实名认证](https://cloud.tencent.com/document/product/378/3629)。
+### Prerequisites
 
-### 复用 Demo 的 UI 界面
+You have [registered a Tencent Cloud](https://cloud.tencent.com/document/product/378/17985) account and completed [real-name authentication](https://cloud.tencent.com/document/product/378 /3629).
+
+### Reuse Demo’s UI interface
 
 <span id="step1"></span>
 
-#### 步骤1：创建新的应用
+#### Step 1: Create a new application
 
-1. 登录实时音视频控制台，选择【开发辅助】>【[快速跑通Demo](https://console.cloud.tencent.com/trtc/quickstart)】。
+1. Log in to the real-time audio and video console, select [Development Assistance] > [Quick Run Demo] (https://console.cloud.tencent.com/trtc/quickstart)].
 
-2. 单击【立即开始】，输入应用名称，例如`TestTRTC`，单击【创建应用】。
+2. Click [Start Now], enter the application name, such as `TestTRTC`, and click [Create Application].
 
 <span id="step2"></span>
 
-#### 步骤2：下载 SDK 和 Demo 源码
-2. 鼠标移动至对应卡片，单击【[Github](https://github.com/tencentyun/TRTCSDK/tree/master/Web/TRTCScenesDemo/trtc-calling-web)】跳转至 Github（或单击【[ZIP](https://web.sdk.qcloud.com/trtc/webrtc/download/webrtc_latest.zip)】），下载相关 SDK 及配套的 Demo 源码。
- ![](https://main.qcloudimg.com/raw/0f35fe3bafe9fcdbd7cc73f991984d1a.png)
-2. 下载完成后，返回实时音视频控制台，单击【我已下载，下一步】，可以查看 SDKAppID 和密钥信息。
+#### Step 2: Download SDK and Demo source code
+
+2. Move the mouse to the corresponding card, click [[Github](https://github.com/tencentyun/TRTCSDK/tree/master/Web/TRTCScenesDemo/trtc-calling-web)] to jump to Github (or click [[ZIP](https://web.sdk.qcloud.com/trtc/webrtc/download/webrtc_latest.zip)]), download the relevant SDK and supporting Demo source code.
+   ![](https://main.qcloudimg.com/raw/0f35fe3bafe9fcdbd7cc73f991984d1a.png)
+3. After the download is completed, return to the real-time audio and video console and click [I have downloaded, Next] to view the SDKAppID and key information.
 
 <span id="step3"></span>
 
-#### 步骤3：配置 Demo 工程文件
+#### Step 3: Configure Demo project file
 
-1. 解压 [步骤2](#step2) 中下载的源码包。
+1. Unzip the source code package downloaded in [Step 2](#step2).
+2. Find and open the `Web/TRTCScenesDemo/TRTCCalling/public/debug/GenerateTestUserSig.js` file.
 
-2. 找到并打开`Web/TRTCScenesDemo/TRTCCalling/public/debug/GenerateTestUserSig.js`文件。
+3. Set the relevant parameters in the `GenerateTestUserSig.js` file:
 
-3. 设置`GenerateTestUserSig.js`文件中的相关参数：
+  <ul><li>SDKAPPID: The default is 0, please set it to the actual SDKAppID. </li>
 
-  <ul><li>SDKAPPID：默认为0，请设置为实际的 SDKAppID。</li>
-
-  <li>SECRETKEY：默认为空字符串，请设置为实际的密钥信息。</li></ul> 
+  <li>SECRETKEY: The default is an empty string, please set it to the actual key information. </li></ul>
 
   <img src="https://main.qcloudimg.com/raw/0ae7a197ad22784384f1b6e111eabb22.png">
 
-4. 返回实时音视频控制台，单击【粘贴完成，下一步】。
+4. Return to the real-time audio and video console and click [Paste Complete, Next].
 
-5. 单击【关闭指引，进入控制台管理应用】。
+5. Click [Close the guide and enter the console management application].
 
->本文提到的生成 UserSig 的方案是在客户端代码中配置 SECRETKEY，该方法中 SECRETKEY 很容易被反编译逆向破解，一旦您的密钥泄露，攻击者就可以盗用您的腾讯云流量，因此****该方法仅适合本地跑通 Demo 和功能调试****。
+> The solution for generating UserSig mentioned in this article is to configure SECRETKEY in the client code. In this method, SECRETKEY can easily be decompiled and reversely cracked. Once your key is leaked, the attacker can steal your Tencent Cloud traffic, so\***\*This method is only suitable for local run-through Demo and functional debugging\*\***.
+> The correct way to issue UserSig is to integrate the UserSig calculation code into your server and provide an App-oriented interface. When UserSig is needed, your App initiates a request to the business server to obtain the dynamic UserSig. For more details, please see [Server-side generation of UserSig](https://cloud.tencent.com/document/product/647/17275#Server).
 
->正确的 UserSig 签发方式是将 UserSig 的计算代码集成到您的服务端，并提供面向 App 的接口，在需要 UserSig 时由您的 App 向业务服务器发起请求获取动态 UserSig。更多详情请参见 [服务端生成 UserSig](https://cloud.tencent.com/document/product/647/17275#Server)。
+#### Step 4: Run Demo
 
-#### 步骤4：运行 Demo
->- 同步依赖： npm install
->- 启动项目： npm run serve
->- 浏览器中打开链接：http://localhost:8080/
+> -Synchronization dependencies: npm install
+> -Start the project: npm run serve
+> -Open the link in the browser: http://localhost:8080/
 
-- Demo 运行界面如图所示：
+-The Demo running interface is as shown in the figure:
 ![](https://main.qcloudimg.com/raw/90118deded971621db7bb14b55073bcc.png)
-- 输入用户 userid，点击【登录】
+-Enter the user userid and click [Login]
 ![](https://main.qcloudimg.com/raw/f430fb067cddbb52ba32e4d0660cd331.png)
-- 输入呼叫用户 userid，即可视频通话
+-Enter the calling user userid to make a video call
 ![](https://main.qcloudimg.com/raw/66562b4c14690de4eb6f2da58ee6f4df.png)
-- 视频通话
+-video call
 ![](https://main.qcloudimg.com/raw/592189d0f18c91c51cdf7184853c6437.png)
 
+### Implement custom UI interface
 
-### 实现自定义 UI 界面
-#### 步骤1：集成 SDK
-NPM 集成
-> 从v0.6.0起，需要手动安装依赖 [trtc-js-sdk](https://www.npmjs.com/package/trtc-js-sdk) 和 [tim-js-sdk](https://www.npmjs.com/package/tim-js-sdk) 以及 [tsignaling](https://www.npmjs.com/package/tsignaling)
->- 为了减小 trtc-calling-js.js 的体积，避免和接入侧已使用的 trtc-js-sdk 和 tim-js-sdk 以及 tsignaling 发生版本冲突，trtc-js-sdk 和 tim-js-sdk 以及 tsignaling 不再被打包到 trtc-calling-js.js，在使用前您需要手动安装依赖。
+#### Step 1: Integrate SDK
+
+NPM integration
+
+> From v0.6.0 onwards, you need to manually install the dependencies [trtc-js-sdk](https://www.npmjs.com/package/trtc-js-sdk) and [tim-js-sdk](https://www.npmjs.com/package/tim-js-sdk) and [tsignaling](https://www.npmjs.com/package/tsignaling)
+> -In order to reduce the size of trtc-calling-js.js and avoid version conflicts with trtc-js-sdk, tim-js-sdk and tsignaling already used on the access side, trtc-js-sdk and tim-js-sdk and tsignaling are no longer packaged in trtc-calling-js.js. You need to manually install the dependencies before use.
+
 ```javascript
   npm i trtc-js-sdk --save
   npm i tim-js-sdk --save
   npm i tsignaling --save
   npm i trtc-calling-js --save
- 
-  // 如果您通过 script 方式使用 trtc-calling-js，需要按顺序先手动引入 trtc.js
-  <script src="./trtc.js"></script>
-  
-  // 接着手动引入 tim-js.js
-  <script src="./tim-js.js"></script>
-  
-  // 然后再手动引入 tsignaling.js
-  <script src="./tsignaling.js"></script>
 
-  // 最后再手动引入 trtc-calling-js.js
+  //If you use trtc-calling-js through script, you need to manually introduce trtc.js in order
+  <script src="./trtc.js"></script>
+
+  //Then manually introduce tim-js.js
+  <script src="./tim-js.js"></script>
+
+  //Then manually introduce tsignaling.js
+<script src="./tsignaling.js"></script>
+
+  //Finally, manually introduce trtc-calling-js.js
   <script src="./trtc-calling-js.js"></script>
 ```
-在项目脚本里引入模块
+
+Import modules into project scripts
+
 ```javascript
-import TrtcCalling from 'trtc-calling-js';
+import TrtcCalling from "trtc-calling-js";
 ```
-#### 步骤2：创建 trtcCalling 对象
->- sdkAppID: 您从腾讯云申请的 sdkAppID
+
+#### Step 2: Create trtcCalling object
+
+> -sdkAppID: the sdkAppID you applied for from Tencent Cloud
+
 ```javascript
 let options = {
-  SDKAppID: 0 // 接入时需要将0替换为您的云通信应用的 SDKAppID
+  SDKAppID: 0, //You need to replace 0 with the SDKAppID of your cloud communication application when accessing
 };
 const trtcCalling = new TRTCCalling(options);
 ```
 
-#### 步骤3：登录
->- userID: 用户 ID
->- userSig: 用户签名，计算方式参见[如何计算 userSig](https://cloud.tencent.com/document/product/647/17275)
+#### Step 3: Log in
+
+> -userID: user ID
+> -userSig: user signature, for calculation method, please refer to [How to calculate userSig](https://cloud.tencent.com/document/product/647/17275)
+
 ```javascript
 trtcCalling.login({
   userID,
-  userSig
+  userSig,
 });
 ```
 
-#### 步骤4：实现 1v1 通话
->#### 拨打：
->- userID: 用户 ID
->- type: 通话类型，0-未知， 1-语音通话，2-视频通话
->- timeout: 邀请超时, 单位 s(秒)
+#### Step 4: Implement 1v1 call
+
+> #### Dial:
+>
+> -userID: user ID
+> -type: call type, 0-unknown, 1-voice call, 2-video call
+> -timeout: invitation timeout, unit s (seconds)
+
 ```javascript
 trtcCalling.call({
   userID,
   type: 2,
-  timeout
+  timeout,
 });
 ```
->#### 接听
->- inviteID: 邀请 ID, 标识一次邀请
->- roomID: 通话房间号 ID
->- callType: 0-未知， 1-语音通话，2-视频通话
+
+> #### Answer
+>
+> -inviteID: invitation ID, identifies an invitation
+> -roomID: call room ID
+> -callType: 0-unknown, 1-voice call, 2-video call
+
 ```javascript
 trtcCalling.accept({
   inviteID,
   roomID,
-  callType
+  callType,
 });
 ```
->#### 打开本地摄像头
+
+> #### Open local camera
+
 ```javascript
-trtcCalling.openCamera()
+trtcCalling.openCamera();
 ```
->#### 展示远端画面
->- userID: 远端用户 ID
->- videoViewDomID: 该用户数据将渲染到该 DOM ID 节点里
+
+> #### Display the remote screen
+>
+> -userID: remote user ID
+> -videoViewDomID: The user data will be rendered into the DOM ID node
+
 ```javascript
 trtcCalling.startRemoteView({
   userID,
-  videoViewDomID
-})
+  videoViewDomID,
+});
 ```
 
->#### 展示本地画面
->- userID: 本地用户 ID
->- videoViewDomID: 该用户数据将渲染到该 DOM ID 节点里
+> #### Show local screen
+>
+> -userID: local user ID
+> -videoViewDomID: The user data will be rendered into the DOM ID node
+
 ```javascript
 trtcCalling.startLocalView({
   userID,
-  videoViewDomID
-})
+  videoViewDomID,
+});
 ```
 
->#### 挂断/拒接
+> #### Hang up/reject call
+
 ```javascript
-trtcCalling.hangup()
+trtcCalling.hangup();
 ```
->- inviteID: 邀请 id，标识一次邀请
->- isBusy: 是否是忙线中， 0-未知， 1-语音通话，2-视频通话
+
+> -inviteID: invitation id, identifies an invitation
+> -isBusy: Whether it is busy, 0-unknown, 1-voice call, 2-video call
+
 ```javascript
-trtcCalling.reject({ 
+trtcCalling.reject({
   inviteID,
-  isBusy
-  })
+  isBusy,
+});
 ```
 
-### 支持的平台
+### Supported platforms
 
-| 操作系统 |      浏览器类型      | 浏览器最低版本要求 |
-| :------: | :------------------: | :----------------: |
-|  Mac OS  | 桌面版 Safari 浏览器 |        11+         |
-|  Mac OS  | 桌面版 Chrome 浏览器 |        56+         |
-| Windows  | 桌面版 Chrome 浏览器 |        56+         |
-| Windows  |   桌面版 QQ 浏览器   |        10.4        |
+| Operating System |    Browser Type    | Minimum Browser Version Requirements |
+| :--------------: | :----------------: | :----------------------------------: |
+|      Mac OS      |   Desktop Safari   |                 11+                  |
+|      Mac OS      | Chrome for desktop |                 56+                  |
+|     Windows      | Chrome for desktop |                 56+                  |
+|     Windows      | Desktop QQ Browser |                 10.4                 |
 
-### 常见问题
+### common problem
 
-#### 1. 查看密钥时只能获取公钥和私钥信息，该如何获取密钥？
-TRTC SDK 6.6 版本（2019年08月）开始启用新的签名算法 HMAC-SHA256。在此之前已创建的应用，需要先升级签名算法才能获取新的加密密钥。如不升级，您也可以继续使用 老版本算法 ECDSA-SHA256，如已升级，您按需切换为新旧算法。
+#### 1. When viewing the key, only the public key and private key information can be obtained. How to obtain the key?
 
-升级/切换操作：
+TRTC SDK version 6.6 (August 2019) starts to enable the new signature algorithm HMAC-SHA256. Applications that have been created before this need to upgrade the signature algorithm before obtaining a new encryption key. If you do not upgrade, you can continue to use the old version of the algorithm ECDSA-SHA256. If you have upgraded, you can switch to the old and new algorithms as needed.
 
-1. 登录 实时音视频控制台。
+Upgrade/switch operation:
 
-2. 在左侧导航栏选择【应用管理】，单击目标应用所在行的【应用信息】。
+1. Log in to the real-time audio and video console.
 
-3. 选择【快速上手】页签，单击【第二步 获取签发 UserSig 的密钥】区域的【点此升级】、【非对称式加密】或【HMAC-SHA256】。
+2. Select [Application Management] in the left navigation bar and click [Application Information] in the row of the target application.
 
-- 升级：
+3. Select the [Quick Start] tab, and click [Click here to upgrade], [Asymmetric Encryption] or [HMAC-SHA256] in the [Step 2 Obtain the key to issue UserSig] area.
 
-   ![](https://main.qcloudimg.com/raw/69bd0957c99e6a6764368d7f13c6a257.png)
+-upgrade:
 
-- 切换回老版本算法 ECDSA-SHA256：
+![](https://main.qcloudimg.com/raw/69bd0957c99e6a6764368d7f13c6a257.png)
 
-   ![](https://main.qcloudimg.com/raw/f89c00f4a98f3493ecc1fe89bea02230.png)
+-Switch back to the old version algorithm ECDSA-SHA256:
 
-- 切换为新版本算法 HMAC-SHA256：
+![](https://main.qcloudimg.com/raw/f89c00f4a98f3493ecc1fe89bea02230.png)
 
-   ![](https://main.qcloudimg.com/raw/b0412153935704abc9e286868ad8a916.png)
+-Switch to new version algorithm HMAC-SHA256:
+![](https://main.qcloudimg.com/raw/b0412153935704abc9e286868ad8a916.png)
 
-#### 2. 防火墙有什么限制？
+#### 2. What are the restrictions on firewalls?
 
-由于 SDK 使用 UDP 协议进行音视频传输，所以对 UDP 有拦截的办公网络下无法使用，如遇到类似问题，请参考文档：[应对公司防火墙限制](https://cloud.tencent.com/document/product/647/34399)。
+Since the SDK uses the UDP protocol for audio and video transmission, it cannot be used in office networks that intercept UDP. If you encounter similar problems, please refer to the document: [Coping with company firewall restrictions] (https://cloud.tencent.com/document /product/647/34399).
